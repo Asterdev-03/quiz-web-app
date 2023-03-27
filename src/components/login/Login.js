@@ -19,7 +19,18 @@ const Login = () => {
         name: loginName,
         password: loginPassword,
       }),
-    }).then((res) => res.json());
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.user) {
+          console.log(data.user);
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

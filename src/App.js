@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-/* import Axios from "axios"; */
-
-/* import Login from "./components/login/Login"; */
+import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 
 // We use Route in order to define the different routes of our application
@@ -23,6 +20,7 @@ const App = () => {
     <div>
       {/* <h1>{data}</h1> */}
 
+      <Login />
       <Register />
     </div>
   );
