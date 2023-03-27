@@ -83,20 +83,50 @@ app.get("/remove", (req, res) => {
 });
  */
 
-app.post("/getRegister", (req, res) => {
+app.post("/getRegister", async (req, res) => {
   const { name, password } = req.body;
 
-  var teacherModel = new TeacherModel();
-  teacherModel.name = name;
-  teacherModel.password = password;
-  teacherModel.quizzes = [];
+  try {
+    const user = await TeacherModel.findOne({ name: name });
 
-  teacherModel
-    .save()
-    .then(() => {
-      res.send("success");
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    if (user) {
+      res.json({ error: "username exists" });
+    } else {
+      var teacherModel = new TeacherModel();
+      teacherModel.name = name;
+      teacherModel.password = password;
+      teacherModel.quizzes = [];
+
+      teacherModel
+        .save()
+        .then((data) => {
+          res.status(200).json({ user: data });
+        })
+        .catch((error) => {
+          res.status(400).json({ error });
+        });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/getLogin", async (req, res) => {
+  const { name, password } = req.body;
+
+  try {
+    const user = await TeacherModel.findOne({ name: name });
+    if (user) {
+      const result = password === user.password;
+      if (result) {
+        res.status(200).json({ user: user });
+      } else {
+        res.status(400).json({ error: "password incorrect" });
+      }
+    } else {
+      res.status(400).json({ error: "username incorrect" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
 });
