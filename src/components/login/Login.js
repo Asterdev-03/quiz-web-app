@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 
 const Login = () => {
-  const [loginName, setName] = useState("");
+  const [loginEmail, setEmail] = useState("");
   const [loginPassword, setPassword] = useState("");
 
-  const onNameChange = (event) => {
-    setName(event.target.value);
+  const onEmailChange = (event) => {
+    setEmail(event.target.value);
   };
   const onPasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const onSumbitClick = () => {
-    fetch("http://localhost:5000/getLogin", {
+  const onSubmitClick = () => {
+    fetch("http://localhost:5000/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: loginName,
+        email: loginEmail,
         password: loginPassword,
       }),
     })
@@ -37,21 +37,15 @@ const Login = () => {
     <div>
       <h2>Login</h2>
       <div>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter username"
-          onChange={onNameChange}
-        />
+        <input type="text" placeholder="Enter email" onChange={onEmailChange} />
         <br />
         <input
           type="password"
-          name="name"
           placeholder="Enter password"
           onChange={onPasswordChange}
         />
         <br />
-        <button onClick={onSumbitClick}>Login</button>
+        <button onClick={onSubmitClick}>Login</button>
       </div>
     </div>
   );

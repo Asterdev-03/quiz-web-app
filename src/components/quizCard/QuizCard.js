@@ -1,7 +1,7 @@
-const QuizCard = () => {
+const QuizCard = ({ quizname }) => {
   return (
     <div>
-      <h3>QuizCard</h3>
+      <h3>{quizname}</h3>
     </div>
   );
 };

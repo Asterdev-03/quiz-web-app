@@ -2,21 +2,26 @@ import React, { useState } from "react";
 
 const Register = () => {
   const [registerName, setName] = useState("");
+  const [registerEmail, setEmail] = useState("");
   const [registerPassword, setPassword] = useState("");
 
   const onNameChange = (event) => {
     setName(event.target.value);
   };
+  const onEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
   const onPasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const onSumbitClick = () => {
-    fetch("http://localhost:5000/getRegister", {
+  const onSubmitClick = () => {
+    fetch("http://localhost:5000/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: registerName,
+        email: registerEmail,
         password: registerPassword,
       }),
     })
@@ -36,23 +41,21 @@ const Register = () => {
   return (
     <div>
       <h2>Register</h2>
-      <div>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter username"
-          onChange={onNameChange}
-        />
+      <form>
+        <input type="text" placeholder="Enter name" onChange={onNameChange} />
+        <br />
+        <input type="text" placeholder="Enter email" onChange={onEmailChange} />
         <br />
         <input
           type="text"
-          name="name"
           placeholder="Enter password"
           onChange={onPasswordChange}
         />
         <br />
-        <button onClick={onSumbitClick}>Register</button>
-      </div>
+        <input type="text" placeholder="Confirm password" />
+        <br />
+        <button onClick={onSubmitClick}>Register</button>
+      </form>
     </div>
   );
 };
