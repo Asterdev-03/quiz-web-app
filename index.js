@@ -130,3 +130,32 @@ app.post("/getLogin", async (req, res) => {
     res.status(400).json({ error });
   }
 });
+
+app.post("/getQstnUpload", async (req, res) => {
+  const { id, quesstion, quesstion1, quesstion2, quesstion3, option } =
+    req.body;
+
+  try {
+    const user = await TeacherModel.findOne({ id: id });
+
+    if (user) {
+      res.json({ error: "username exists" });
+    } else {
+      var teacherModel = new TeacherModel();
+      teacherModel.name = name;
+      teacherModel.password = password;
+      teacherModel.quizzes = [];
+
+      teacherModel
+        .save()
+        .then((data) => {
+          res.status(200).json({ user: data });
+        })
+        .catch((error) => {
+          res.status(400).json({ error });
+        });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
