@@ -35,9 +35,24 @@ const Register = () => {
 
   return (
     <div>
-      <input type="text" name="name" onChange={onNameChange} />
-      <input type="text" name="name" onChange={onPasswordChange} />
-      <button onClick={onSumbitClick}>Register</button>
+      <h2>Register</h2>
+      <div>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter username"
+          onChange={onNameChange}
+        />
+        <br />
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter password"
+          onChange={onPasswordChange}
+        />
+        <br />
+        <button onClick={onSumbitClick}>Register</button>
+      </div>
     </div>
   );
 };

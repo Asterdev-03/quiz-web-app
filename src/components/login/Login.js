@@ -35,9 +35,24 @@ const Login = () => {
 
   return (
     <div>
-      <input type="text" name="name" onChange={onNameChange} />
-      <input type="password" name="name" onChange={onPasswordChange} />
-      <button onClick={onSumbitClick}>Login</button>
+      <h2>Login</h2>
+      <div>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter username"
+          onChange={onNameChange}
+        />
+        <br />
+        <input
+          type="password"
+          name="name"
+          placeholder="Enter password"
+          onChange={onPasswordChange}
+        />
+        <br />
+        <button onClick={onSumbitClick}>Login</button>
+      </div>
     </div>
   );
 };
