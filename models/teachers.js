@@ -6,19 +6,24 @@ const teacherSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   password: {
     type: String,
     required: true,
     trim: true,
   },
-  quizzes: {
-    type: [
-      {
-        code: Number,
+  quizzes: [
+    {
+      qid: {
+        type: String,
+        trim: true,
       },
-    ],
-    default: undefined,
-  },
+    },
+  ],
 });
 
 const TeacherModel = mongoose.model("teacher", teacherSchema);

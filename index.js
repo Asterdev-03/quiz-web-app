@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const TeacherModel = require("./models/teachers");
+const QuizzesModel = require("./models/quizzes");
 
 const app = express();
 
@@ -83,17 +84,16 @@ app.get("/remove", (req, res) => {
 });
  */
 
-app.post("/getRegister", async (req, res) => {
-  const { name, password } = req.body;
+app.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
 
   try {
-    const user = await TeacherModel.findOne({ name: name });
-
-    if (user) {
-      res.json({ error: "username exists" });
+    if (await TeacherModel.findOne({ email: email })) {
+      res.json({ error: "email exists" });
     } else {
       var teacherModel = new TeacherModel();
       teacherModel.name = name;
+      teacherModel.email = email;
       teacherModel.password = password;
       teacherModel.quizzes = [];
 
@@ -111,42 +111,51 @@ app.post("/getRegister", async (req, res) => {
   }
 });
 
-app.post("/getLogin", async (req, res) => {
-  const { name, password } = req.body;
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
 
   try {
-    const user = await TeacherModel.findOne({ name: name });
+    const user = await TeacherModel.findOne({ email: email });
     if (user) {
-      const result = password === user.password;
-      if (result) {
+      if (password === user.password) {
         res.status(200).json({ user: user });
       } else {
         res.status(400).json({ error: "password incorrect" });
       }
     } else {
-      res.status(400).json({ error: "username incorrect" });
+      res.status(400).json({ error: "email incorrect" });
     }
   } catch (error) {
     res.status(400).json({ error });
   }
 });
 
-app.post("/getQstnUpload", async (req, res) => {
-  const { id, quesstion, quesstion1, quesstion2, quesstion3, option } =
-    req.body;
+app.post("/createQuiz", async (req, res) => {
+  const { email, qid, courseName } = req.body;
 
   try {
-    const user = await TeacherModel.findOne({ id: id });
-
-    if (user) {
-      res.json({ error: "username exists" });
+    if (await TeacherModel.findOne({ "quizzes.qid": qid })) {
+      res.json({ error: "quiz already exits" });
+    } else if (await QuizzesModel.findOne({ courseName: courseName })) {
+      res.json({ error: "course already exits" });
     } else {
-      var teacherModel = new TeacherModel();
-      teacherModel.name = name;
-      teacherModel.password = password;
-      teacherModel.quizzes = [];
+      const user = await TeacherModel.findOne({ email: email });
+      user.quizzes.push({ qid: qid });
 
-      teacherModel
+      var course = new QuizzesModel();
+      course.courseName = courseName;
+      course.qid = qid;
+      course.quiz = [];
+
+      course
+        .save()
+        .then((data) => {
+          res.status(200).json({ user: data });
+        })
+        .catch((error) => {
+          res.status(400).json({ error });
+        });
+      user
         .save()
         .then((data) => {
           res.status(200).json({ user: data });
@@ -155,6 +164,38 @@ app.post("/getQstnUpload", async (req, res) => {
           res.status(400).json({ error });
         });
     }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/uploadQuestion", async (req, res) => {
+  const { qid, question, option1, option2, option3, option4, correctOption } =
+    req.body;
+
+  try {
+    await QuizzesModel.findOneAndUpdate(
+      { qid: qid },
+      {
+        $push: {
+          quiz: {
+            question: question,
+            option1: option1,
+            option2: option2,
+            option3: option3,
+            option4: option4,
+            correctOption: correctOption,
+          },
+        },
+      }
+    )
+
+      .then((data) => {
+        res.status(200).json({ user: data });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
   } catch (error) {
     res.status(400).json({ error });
   }

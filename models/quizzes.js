@@ -1,27 +1,48 @@
 const mongoose = require("mongoose");
 
 const quizzesSchema = mongoose.Schema({
-  _id: String,
-  code: String,
-  courseName: String,
+  qid: {
+    type: Number,
+    required: true,
+  },
+  code: {
+    type: String,
+    trim: true,
+  },
+  courseName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
   quiz: [
     {
-      title: String,
-      qstn1: String,
-      qstn2: String,
-      qstn3: String,
-      qstn4: String,
-      optn: String,
-    },
-  ],
-  currentQuiz: [
-    {
-      title: String,
-      qstn1: String,
-      qstn2: String,
-      qstn3: String,
-      qstn4: String,
-      optn: String,
+      question: {
+        type: String,
+        trim: true,
+        required: true,
+      },
+      option1: {
+        type: String,
+        trim: true,
+        required: true,
+      },
+      option2: {
+        type: String,
+        trim: true,
+        required: true,
+      },
+      option3: {
+        type: String,
+        trim: true,
+      },
+      option4: {
+        type: String,
+        trim: true,
+      },
+      correctOption: {
+        type: String,
+        required: true,
+      },
     },
   ],
 });
