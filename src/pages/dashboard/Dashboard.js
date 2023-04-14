@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import CreateQuiz from "../../components/createQuiz/CreateQuiz";
 import QuizList from "../../components/quizList/QuizList";
 import UploadQuestion from "../../components/uploadQuestion/UploadQuestion";
+import QuizCard from "../../components/quizCard/QuizCard";
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState("quizList");

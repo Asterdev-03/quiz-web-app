@@ -19,8 +19,8 @@ const JoinQuiz = () => {
           required
         />
         <br />
-        <button type="submit">Join</button>
       </form>
+      <button type="submit">Join</button>
     </div>
   );
 };

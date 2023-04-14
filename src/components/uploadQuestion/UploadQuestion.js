@@ -2,11 +2,8 @@ import React, { useState } from "react";
 
 const UploadQuestion = (props) => {
   const [quizQuestion, setQuizQuestion] = useState("");
-  const [quizOption1, setQuizOption1] = useState("");
-  const [quizOption2, setQuizOption2] = useState("");
-  const [quizOption3, setQuizOption3] = useState("");
-  const [quizOption4, setQuizOption4] = useState("");
-  const [correctOption, setCorrectOption] = useState("a");
+  const [quizOptions, setQuizOptions] = useState([]);
+  const [correctOption, setCorrectOption] = useState(0);
 
   const handleClick = () => {
     props.onPageChange();
@@ -15,17 +12,8 @@ const UploadQuestion = (props) => {
   const onquizQuestionChange = (event) => {
     setQuizQuestion(event.target.value);
   };
-  const onquizQuestion1Change = (event) => {
-    setQuizOption1(event.target.value);
-  };
-  const onquizQuestion2Change = (event) => {
-    setQuizOption2(event.target.value);
-  };
-  const onquizQuestion3Change = (event) => {
-    setQuizOption3(event.target.value);
-  };
-  const onquizQuestion4Change = (event) => {
-    setQuizOption4(event.target.value);
+  const onquizOptionChange = (event) => {
+    setQuizOptions((prev) => [...prev, event.target.value]);
   };
   const onCorrectOptionChange = (event) => {
     setCorrectOption(event.target.value);
@@ -38,11 +26,8 @@ const UploadQuestion = (props) => {
       body: JSON.stringify({
         qid: 1680799851124,
         question: quizQuestion,
-        option1: quizOption1,
-        option2: quizOption2,
-        option3: quizOption3,
-        option4: quizOption4,
-        correctOption: correctOption,
+        options: quizOptions,
+        correctOption: parseInt(correctOption),
       }),
     })
       .then((response) => response.json())
@@ -71,28 +56,28 @@ const UploadQuestion = (props) => {
         <input
           type="text"
           placeholder="Question 1"
-          onChange={onquizQuestion1Change}
+          onChange={onquizOptionChange}
         />
         <input
           type="text"
           placeholder="Question 2"
-          onChange={onquizQuestion2Change}
+          onChange={onquizOptionChange}
         />
         <input
           type="text"
           placeholder="Question 3"
-          onChange={onquizQuestion3Change}
+          onChange={onquizOptionChange}
         />
         <input
           type="text"
           placeholder="Question 4"
-          onChange={onquizQuestion4Change}
+          onChange={onquizOptionChange}
         />
         <select onChange={onCorrectOptionChange}>
-          <option value="a">a</option>
-          <option value="b">b</option>
-          <option value="c">c</option>
-          <option value="d">d</option>
+          <option value="0">a</option>
+          <option value="1">b</option>
+          <option value="2">c</option>
+          <option value="3">d</option>
         </select>
       </form>
       <button onClick={onSubmitClick}>Submit</button>

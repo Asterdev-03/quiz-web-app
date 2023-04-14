@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useLecturerInfo } from "../../hooks/fetchLecturerDashboardDetails";
 
 const Login = () => {
   const [loginEmail, setEmail] = useState("");
   const [loginPassword, setPassword] = useState("");
+
+  const [, updateLecturerEmail] = useLecturerInfo();
+
+  const navigate = useNavigate();
 
   const onEmailChange = (event) => {
     setEmail(event.target.value);
@@ -24,6 +31,8 @@ const Login = () => {
       .then((data) => {
         if (data.user) {
           console.log(data.user);
+          updateLecturerEmail(loginEmail);
+          navigate("/dashboard", { replace: true });
         } else {
           console.log(data);
         }
@@ -36,8 +45,13 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
-      <div>
-        <input type="text" placeholder="Enter email" onChange={onEmailChange} />
+      <form>
+        <input
+          type="text"
+          placeholder="Enter email"
+          autoComplete="current-password"
+          onChange={onEmailChange}
+        />
         <br />
         <input
           type="password"
@@ -45,8 +59,8 @@ const Login = () => {
           onChange={onPasswordChange}
         />
         <br />
-        <button onClick={onSubmitClick}>Login</button>
-      </div>
+      </form>
+      <button onClick={onSubmitClick}>Login</button>
     </div>
   );
 };

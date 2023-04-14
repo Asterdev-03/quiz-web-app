@@ -1,22 +1,26 @@
 import QuizCard from "../quizCard/QuizCard";
+import { useNavigate } from "react-router-dom";
+import { useLecturerInfo } from "../../hooks/fetchLecturerDashboardDetails";
 
 const QuizList = (props) => {
-  const createdQuizzes = {
-    name1: "FLAT",
-    name2: "DS",
-    name3: "DAA",
-    name4: "MSS",
-  };
+  const navigate = useNavigate();
+
+  const [lecturerInfo] = useLecturerInfo();
 
   const handleClick = () => {
     props.onPageChange();
   };
 
+  const handleLogoutClick = () => {
+    navigate("/", { replace: true });
+  };
+
   return (
     <div>
+      <button onClick={handleLogoutClick}>Logout</button>
       <div>
-        {Object.values(createdQuizzes).map((name) => (
-          <QuizCard key={name} quizname={name} />
+        {lecturerInfo.courseList.map((courseName) => (
+          <QuizCard key={courseName} courseName={courseName} />
         ))}
       </div>
       <button onClick={handleClick}>Create Quiz</button>

@@ -1,9 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useLecturerInfo } from "../../hooks/fetchLecturerDashboardDetails";
 
 const Register = () => {
   const [registerName, setName] = useState("");
   const [registerEmail, setEmail] = useState("");
   const [registerPassword, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const [, updateLecturerEmail] = useLecturerInfo();
 
   const onNameChange = (event) => {
     setName(event.target.value);
@@ -29,6 +36,8 @@ const Register = () => {
       .then((data) => {
         if (data.user) {
           console.log(data.user);
+          updateLecturerEmail(registerEmail);
+          navigate("/dashboard", { replace: true });
         } else {
           console.log(data);
         }
@@ -54,8 +63,8 @@ const Register = () => {
         <br />
         <input type="text" placeholder="Confirm password" />
         <br />
-        <button onClick={onSubmitClick}>Register</button>
       </form>
+      <button onClick={onSubmitClick}>Register</button>
     </div>
   );
 };
