@@ -21,26 +21,15 @@ const quizzesSchema = mongoose.Schema({
         trim: true,
         required: true,
       },
-      option1: {
-        type: String,
-        trim: true,
-        required: true,
-      },
-      option2: {
-        type: String,
-        trim: true,
-        required: true,
-      },
-      option3: {
-        type: String,
-        trim: true,
-      },
-      option4: {
-        type: String,
-        trim: true,
-      },
+      options: [
+        {
+          type: String,
+          trim: true,
+          required: true,
+        },
+      ],
       correctOption: {
-        type: String,
+        type: Number,
         required: true,
       },
     },
