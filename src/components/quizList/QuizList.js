@@ -1,11 +1,11 @@
-import QuizCard from "../quizCard/QuizCard";
 import { useNavigate } from "react-router-dom";
-import { useLecturerInfo } from "../../hooks/fetchLecturerDashboardDetails";
+import { useEffect, useState } from "react";
+import QuizCard from "../quizCard/QuizCard";
 
 const QuizList = (props) => {
-  const navigate = useNavigate();
+  const [quizlist, setQuizList] = useState([]);
 
-  const [lecturerInfo] = useLecturerInfo();
+  const navigate = useNavigate();
 
   const handleClick = () => {
     props.onPageChange();
@@ -15,12 +15,29 @@ const QuizList = (props) => {
     navigate("/", { replace: true });
   };
 
+  useEffect(() => {
+    fetch("http://localhost:5000/getQuizList", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setQuizList(data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div>
       <button onClick={handleLogoutClick}>Logout</button>
       <div>
-        {lecturerInfo.courseList.map((courseName) => (
-          <QuizCard key={courseName} courseName={courseName} />
+        {quizlist.map((qid) => (
+          <QuizCard key={qid} qid={qid} />
         ))}
       </div>
       <button onClick={handleClick}>Create Quiz</button>

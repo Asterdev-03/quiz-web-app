@@ -1,23 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import QuizResult from "../../components/quizResult/QuizResult";
 
 const ResultPage = () => {
-  const [code, setCode] = useState(0);
+  const [code, setCode] = useState(Date.now() % 1000000);
+  const [result, setResult] = useState([]);
 
-  const [result, setResult] = useState([
-    {
-      name: "a",
-      marks: "b",
-      status: "failed",
-    },
-  ]);
+  useEffect(() => {
+    sessionStorage.setItem("lecturerInfo_QuizCode", JSON.stringify(code));
 
-  const quizSetup = () => {
-    console.log(code);
     fetch("http://localhost:5000/quizSetup", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        qid: 1680799851124,
+        qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         code: code,
       }),
     })
@@ -32,15 +27,21 @@ const ResultPage = () => {
       .catch((error) => {
         console.log(error);
       });
-    console.log(code);
-  };
+  }, [code]);
 
-  const onRefreshClick = () => {
-    fetch("http://localhost:5000/getResult")
+  useEffect(() => {
+    fetch("http://localhost:5000/getResult", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.user) {
           console.log("result: ", data.user);
+          setResult(data.user);
         } else {
           console.log(data);
         }
@@ -48,11 +49,10 @@ const ResultPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, []);
 
   const onResetCodeClick = async () => {
     setCode(Date.now() % 1000000);
-    quizSetup();
   };
 
   return (
@@ -60,7 +60,8 @@ const ResultPage = () => {
       <h3>Code is {code}</h3>
       <button onClick={onResetCodeClick}>Reset Code</button>
       <h3>Result</h3>
-      <button onClick={onRefreshClick}>Refresh</button>
+      <button>Refresh</button>
+      <QuizResult students={result} />
     </div>
   );
 };

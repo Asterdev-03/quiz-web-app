@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useLecturerInfo } from "../../hooks/fetchLecturerDashboardDetails";
-
 const Login = () => {
   const [loginEmail, setEmail] = useState("");
   const [loginPassword, setPassword] = useState("");
-
-  const [, updateLecturerEmail] = useLecturerInfo();
 
   const navigate = useNavigate();
 
@@ -30,8 +26,15 @@ const Login = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.user) {
-          console.log(data.user);
-          updateLecturerEmail(loginEmail);
+          sessionStorage.setItem(
+            "lecturerInfo_name",
+            JSON.stringify(data.user.name)
+          );
+          sessionStorage.setItem(
+            "lecturerInfo_email",
+            JSON.stringify(data.user.email)
+          );
+          navigate("/dashboard");
         } else {
           console.log(data);
         }
@@ -39,7 +42,6 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
       });
-    navigate("/dashboard");
   };
 
   return (

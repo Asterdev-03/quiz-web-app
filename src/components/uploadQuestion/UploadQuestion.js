@@ -5,7 +5,7 @@ const UploadQuestion = (props) => {
   const [quizOptions, setQuizOptions] = useState([]);
   const [correctOption, setCorrectOption] = useState(0);
 
-  const handleClick = () => {
+  const onSaveClick = () => {
     props.onPageChange();
   };
 
@@ -24,7 +24,7 @@ const UploadQuestion = (props) => {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        qid: 1680799851124,
+        qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         question: quizQuestion,
         options: quizOptions,
         correctOption: parseInt(correctOption),
@@ -46,7 +46,7 @@ const UploadQuestion = (props) => {
   return (
     <div>
       <h3>Add Questions</h3>
-      <button onClick={handleClick}>Save</button>
+      <button onClick={onSaveClick}>Save</button>
       <form>
         <input
           type="text"

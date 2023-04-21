@@ -6,7 +6,7 @@ import Register from "../../components/register/Register.js";
 import JoinQuiz from "../../components/joinQuiz/JoinQuiz";
 
 const HomePage = () => {
-  const [currentPage, setCurrentPage] = useState("joinQuiz");
+  const [currentPage, setCurrentPage] = useState("login");
 
   const handleRegisterClick = () => {
     setCurrentPage("register");

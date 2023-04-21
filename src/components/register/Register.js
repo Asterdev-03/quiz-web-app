@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useLecturerInfo } from "../../hooks/fetchLecturerDashboardDetails";
-
 const Register = () => {
   const [registerName, setName] = useState("");
   const [registerEmail, setEmail] = useState("");
   const [registerPassword, setPassword] = useState("");
 
   const navigate = useNavigate();
-
-  const [, updateLecturerEmail] = useLecturerInfo();
 
   const onNameChange = (event) => {
     setName(event.target.value);
@@ -35,8 +31,15 @@ const Register = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.user) {
-          console.log(data.user);
-          updateLecturerEmail(registerEmail);
+          sessionStorage.setItem(
+            "lecturerInfo_name",
+            JSON.stringify(data.user.name)
+          );
+          sessionStorage.setItem(
+            "lecturerInfo_email",
+            JSON.stringify(data.user.email)
+          );
+          navigate("/dashboard");
         } else {
           console.log(data);
         }
@@ -44,7 +47,6 @@ const Register = () => {
       .catch((error) => {
         console.log(error);
       });
-    navigate("/dashboard");
   };
 
   return (

@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 
-
 const CreateQuiz = (props) => {
   const [courseName, setCourseName] = useState("");
-  
 
   const onCourseNameChange = (event) => {
     setCourseName(event.target.value);
   };
 
-  const onSubmitClick = () => {
-    
-    fetch("http://localhost:5000/createQuiz", {
+  const onSubmitClick = async () => {
+    sessionStorage.setItem(
+      "lecturerInfo_Qid_Update",
+      JSON.stringify(Date.now())
+    );
+    await fetch("http://localhost:5000/createQuiz", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: "ak@gmail.com",
-        qid: Date.now(),
+        email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
+        qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         courseName: courseName,
       }),
     })
@@ -24,6 +25,7 @@ const CreateQuiz = (props) => {
       .then((data) => {
         if (data.user) {
           console.log(data.user);
+          props.onPageChange();
         } else {
           console.log(data);
         }
@@ -31,7 +33,6 @@ const CreateQuiz = (props) => {
       .catch((error) => {
         console.log(error);
       });
-    props.onPageChange();
   };
 
   return (
