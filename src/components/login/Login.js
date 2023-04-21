@@ -32,7 +32,6 @@ const Login = () => {
         if (data.user) {
           console.log(data.user);
           updateLecturerEmail(loginEmail);
-          navigate("/dashboard", { replace: true });
         } else {
           console.log(data);
         }
@@ -40,6 +39,7 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
       });
+    navigate("/dashboard");
   };
 
   return (

@@ -37,7 +37,6 @@ const Register = () => {
         if (data.user) {
           console.log(data.user);
           updateLecturerEmail(registerEmail);
-          navigate("/dashboard", { replace: true });
         } else {
           console.log(data);
         }
@@ -45,6 +44,7 @@ const Register = () => {
       .catch((error) => {
         console.log(error);
       });
+    navigate("/dashboard");
   };
 
   return (

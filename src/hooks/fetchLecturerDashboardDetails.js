@@ -1,13 +1,33 @@
 import { useEffect, useState } from "react";
 
 export const useLecturerInfo = () => {
-  const [lecturerInfo, setLecturerInfo] = useState({
-    name: undefined,
-    email: "",
-    courseList: ["DS", "Java", "Algorithm Analysis"],
-    qidList: [],
-  });
-
+  const [lecturerInfo, setLecturerInfo] = useState(
+    /* () => {
+    // Load lecturerInfo from localStorage if it exists
+    const JSONlecturerInfo = localStorage.getItem("lecturerInfo");
+    if (JSONlecturerInfo) {
+      const { data } = JSON.parse(JSONlecturerInfo);
+      return data;
+    }
+    return  */ {
+      name: undefined,
+      email: "",
+      courseList: ["DS", "Java", "Algorithm Analysis"],
+      qidList: [],
+    }
+  ); /* 
+  // Save admin to localStorage when it changes
+  useEffect(() => {
+    if (lecturerInfo) {
+      localStorage.setItem(
+        "lecturerInfo",
+        JSON.stringify({ data: lecturerInfo })
+      );
+    } else {
+      localStorage.removeItem("lecturerInfo");
+    }
+  }, [lecturerInfo]);
+ */
   const updateLecturerEmail = (value) => {
     setLecturerInfo({
       ...lecturerInfo,
@@ -15,7 +35,16 @@ export const useLecturerInfo = () => {
     });
     console.log(lecturerInfo);
   };
-
+  /* 
+  const updateLecturerCourseList = (value) => {
+    setLecturerInfo((prev) => ({
+      ...prev,
+      courseList: [...prev.courseList, value],
+    }));
+    console.log(value);
+    console.log(lecturerInfo);
+  };
+ */
   useEffect(() => {
     const fetchLecturer = () => {
       if (lecturerInfo.email) {
