@@ -192,52 +192,37 @@ app.post("/uploadQuestion", async (req, res) => {
     res.status(400).json({ error });
   }
 });
-/* 
-app.post("/fetchLecturerInfo", async (req, res) => {
-  const { email } = req.body;
 
-  try {
-    const user = await TeacherModel.findOne({ email: email });
-    if (user) {
-      var lecturer = {
-        name: "",
-        email: "",
-        courseList: [],
-        qidList: [],
-      };
-
-      lecturer.name = user.name;
-      lecturer.email = user.email;
-
-      const qidList = user.quizzes;
-
-      for (var i = 0; i < qidList.length; i++) {
-        lecturer.qidList.push(qidList[i].qid);
-        const course = await QuizzesModel.findOne({ qid: qidList[i].qid });
-
-        if (course) {
-          lecturer.courseList.push(course.courseName);
-        }
-      }
-
-      res.status(200).json({ user: lecturer });
-    } else {
-      res.status(400).json({ error: "email not found" });
-    }
-  } catch (error) {
-    res.status(400).json({ error });
-  }
-});
- */
 app.post("/quizSetup", async (req, res) => {
   const { qid, code } = req.body;
   try {
     await QuizzesModel.findOneAndUpdate({ qid: qid }, { code: code })
-      .then((data) => {
-        res.status(200).json({ user: data });
+      .then(async (data) => {
+        const result = await ResultModel.findOne({ code: code });
+        if (result === null) {
+          var resultModel = new ResultModel();
+          resultModel.code = code;
+          resultModel.course = data.courseName;
+          resultModel.student = [];
+          const quizModel = await QuizzesModel.findOne({ qid: qid });
+
+          const shuffledQuestions = quizModel.quiz.sort(
+            () => Math.random() - 0.5
+          );
+          resultModel.quiz = quizModel.quiz;
+
+          resultModel
+            .save()
+            .then((data) => {
+              res.status(200).json({ user: data });
+            })
+            .catch((error) => {
+              res.status(400).json({ error: "aa" });
+            });
+        }
       })
       .catch((error) => {
-        res.status(400).json({ error });
+        res.status(400).json({ error: "zzz" });
       });
   } catch (error) {
     res.status(400).json({ error });
@@ -248,57 +233,24 @@ app.post("/joinQuiz", async (req, res) => {
   const { name, code } = req.body;
 
   try {
-    const quiz = await QuizzesModel.findOne({ code: code });
-
-    if (quiz) {
-      const result = await ResultModel.findOne({
-        qid: quiz.qid,
-      });
-
-      if (result) {
-        await ResultModel.findOneAndUpdate(
-          { qid: quiz.qid },
-          {
-            $push: {
-              student: {
-                name: name,
-                marks: 0,
-                status: "checking",
-                course: "DS",
-              },
-            },
-          }
-        )
-          .then((data) => {
-            res.status(200).json({ user: data });
-          })
-          .catch((error) => {
-            res.status(400).json({ error });
-          });
-      } else {
-        var resultModel = new ResultModel();
-        resultModel.qid = quiz.qid;
-        resultModel.course = quiz.courseName;
-        resultModel.student = [
-          {
+    await ResultModel.findOneAndUpdate(
+      { code: code },
+      {
+        $push: {
+          student: {
             name: name,
             marks: 0,
             status: "checking",
           },
-        ];
-
-        resultModel
-          .save()
-          .then((data) => {
-            res.status(200).json({ user: data });
-          })
-          .catch((error) => {
-            res.status(400).json({ error: "aa" });
-          });
+        },
       }
-    } else {
-      res.status(400).json({ error: "email not found" });
-    }
+    )
+      .then((data) => {
+        res.status(200).json({ user: data });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
   } catch (error) {
     res.status(400).json({ error: "nnn" });
   }
@@ -337,13 +289,93 @@ app.post("/getQuizInfo", async (req, res) => {
 });
 
 app.post("/getResult", async (req, res) => {
-  const { qid } = req.body;
+  const { code } = req.body;
   try {
-    const result = await ResultModel.findOne({ qid: qid });
+    const result = await ResultModel.findOne({ code: code });
     if (result) {
       res.status(200).json({ user: result.student });
     } else {
+      res.status(400).json({ error: "no result info" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/getQuizQuestions", async (req, res) => {
+  const { code } = req.body;
+  try {
+    const result = await ResultModel.findOne({ code: code });
+    if (result) {
+      var quizInfo = [];
+
+      for (var i = 0; i < result.quiz.length; i++) {
+        quizInfo.push({
+          question: result.quiz[i].question,
+          options: result.quiz[i].options,
+        });
+      }
+
+      res.status(200).json({ user: quizInfo });
+    } else {
+      res.status(400).json({ error: "no question info" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/setStudentResult", async (req, res) => {
+  const { code, name, selectedOptionsList } = req.body;
+  try {
+    const result = await ResultModel.findOne({ code: code });
+    if (result) {
+      var score = 0;
+      var status = "";
+      for (var i = 0; i < selectedOptionsList.length; i++) {
+        if (selectedOptionsList[i] === result.quiz[i].correctOption) {
+          score = score + 10;
+        }
+      }
+      if (score >= selectedOptionsList.length * 10 * 0.4) {
+        status = "pass";
+      } else {
+        status = "fail";
+      }
+      await ResultModel.findOneAndUpdate(
+        { code: code, "student.name": name },
+        {
+          $set: {
+            "student.$.marks": score,
+            "student.$.status": status,
+          },
+        }
+      )
+        .then((data) => {
+          console.log(data);
+          res.status(200).json({ user: data });
+        })
+        .catch((error) => {
+          res.status(400).json({ error });
+        });
+    } else {
       res.status(400).json({ error: "no quiz info" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/getStudentResult", async (req, res) => {
+  const { code, name } = req.body;
+  try {
+    const result = await ResultModel.findOne({ code: code });
+    if (result) {
+      const studentResult = result.student.find((st) => st.name === name);
+      console.log(studentResult);
+      res.status(200).json({ user: studentResult });
+    } else {
+      res.status(400).json({ error: "no result info" });
     }
   } catch (error) {
     res.status(400).json({ error });
