@@ -2,38 +2,46 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const JoinQuiz = () => {
-  const [code, setCode] = useState("");
-  const [name, setName] = useState("");
+  const [quizCode, setQuizCode] = useState("");
+  const [studentName, setStudentName] = useState("");
   const navigate = useNavigate();
 
   const onNameChange = (event) => {
-    setName(event.target.value);
+    setStudentName(event.target.value);
   };
   const onCodeChange = (event) => {
-    setCode(event.target.value);
+    setQuizCode(event.target.value);
   };
 
-  const onJoinClick = () => {
+  /* validates the code and stores the student name to result report */
+  const handleJoinClick = () => {
     fetch("http://localhost:5000/joinQuiz", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: name,
-        code: code,
+        name: studentName,
+        code: quizCode,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.user) {
-          console.log(data.user);
-          sessionStorage.setItem("student_name", JSON.stringify(name));
-          sessionStorage.setItem("student_code", JSON.stringify(code));
+        /* if quiz exist store info to session storage */
+        if (data.student) {
+          console.log(data.student);
+          sessionStorage.setItem(
+            "student_name",
+            JSON.stringify(data.student.name)
+          );
+          sessionStorage.setItem(
+            "student_quizCode",
+            JSON.stringify(data.student.code)
+          );
           sessionStorage.setItem(
             "student_selectedOptionsList",
             JSON.stringify([])
           );
           sessionStorage.setItem("student_trace", JSON.stringify(0));
-          navigate("/quiz");
+          navigate("/quiz", { replace: true });
         } else {
           console.log(data);
         }
@@ -51,7 +59,7 @@ const JoinQuiz = () => {
         <input type="text" placeholder="Enter Code" onChange={onCodeChange} />
         <br />
       </form>
-      <button onClick={onJoinClick}>Join</button>
+      <button onClick={handleJoinClick}>Join</button>
     </div>
   );
 };

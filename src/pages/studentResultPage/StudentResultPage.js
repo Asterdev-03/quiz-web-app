@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const StudentResult = (props) => {
+const StudentResultPage = () => {
   const [result, setResult] = useState();
 
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    navigate("/", { replace: true });
+  };
+
+  /* fetches the student result using name and quiz code */
   useEffect(() => {
     fetch("http://localhost:5000/getStudentResult", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        code: JSON.parse(sessionStorage.getItem("student_code")),
+        code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         name: JSON.parse(sessionStorage.getItem("student_name")),
       }),
     })
@@ -25,8 +33,11 @@ const StudentResult = (props) => {
         console.log(error);
       });
   }, []);
+
   return (
     <div>
+      <button onClick={handleLogoutClick}>Logout</button>
+      {/* Display the Student Result */}
       <h3>Student Result</h3>
       <table>
         <thead>
@@ -47,4 +58,4 @@ const StudentResult = (props) => {
     </div>
   );
 };
-export default StudentResult;
+export default StudentResultPage;

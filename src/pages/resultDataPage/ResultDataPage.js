@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import QuizResult from "../../components/quizResult/QuizResult";
+import { useNavigate } from "react-router-dom";
 
 const ResultPage = () => {
-  const [result, setResult] = useState([]);
+  const [resultReport, setResultReport] = useState([]);
 
+  const navigate = useNavigate();
+
+  const handleExitClick = () => {
+    navigate("/dashboard", { replace: true });
+  };
+
+  /* setup the quiz with keys qid and code */
   useEffect(() => {
     fetch("http://localhost:5000/quizSetup", {
       method: "post",
@@ -15,8 +22,8 @@ const ResultPage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.user) {
-          console.log(data.user);
+        if (data.result) {
+          console.log(data.result);
         } else {
           console.log(data);
         }
@@ -26,6 +33,7 @@ const ResultPage = () => {
       });
   }, []);
 
+  /* fetches the result report of the quiz */
   useEffect(() => {
     fetch("http://localhost:5000/getResult", {
       method: "post",
@@ -36,9 +44,9 @@ const ResultPage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.user) {
-          console.log("result: ", data.user);
-          setResult(data.user);
+        if (data.result) {
+          console.log("result: ", data.result);
+          setResultReport(data.result);
         } else {
           console.log(data);
         }
@@ -50,11 +58,32 @@ const ResultPage = () => {
 
   return (
     <div>
+      <button onClick={handleExitClick}>Exit</button>
       <h3>
         Code is {JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode"))}
       </h3>
-      <h3>Result</h3>
-      <QuizResult students={result} />
+      <div>
+        {/* Displays the Result Report */}
+        <h3>Result</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Marks</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {resultReport.map((student) => (
+              <tr>
+                <td>{student.name}</td>
+                <td>{student.marks}</td>
+                <td>{student.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

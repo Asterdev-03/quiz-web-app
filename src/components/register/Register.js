@@ -2,51 +2,61 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [registerName, setName] = useState("");
-  const [registerEmail, setEmail] = useState("");
-  const [registerPassword, setPassword] = useState("");
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerConfirmPassword, setRegisterConfirmPassword] = useState("");
 
   const navigate = useNavigate();
 
   const onNameChange = (event) => {
-    setName(event.target.value);
+    setRegisterName(event.target.value);
   };
   const onEmailChange = (event) => {
-    setEmail(event.target.value);
+    setRegisterEmail(event.target.value);
   };
   const onPasswordChange = (event) => {
-    setPassword(event.target.value);
+    setRegisterPassword(event.target.value);
+  };
+  const onConfirmPasswordChange = (event) => {
+    setRegisterConfirmPassword(event.target.value);
   };
 
-  const onSubmitClick = () => {
-    fetch("http://localhost:5000/register", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: registerName,
-        email: registerEmail,
-        password: registerPassword,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.user) {
-          sessionStorage.setItem(
-            "lecturerInfo_name",
-            JSON.stringify(data.user.name)
-          );
-          sessionStorage.setItem(
-            "lecturerInfo_email",
-            JSON.stringify(data.user.email)
-          );
-          navigate("/dashboard");
-        } else {
-          console.log(data);
-        }
+  /* register with email and password */
+  const handleSubmitClick = () => {
+    if (registerConfirmPassword === registerPassword) {
+      fetch("http://localhost:5000/register", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: registerName,
+          email: registerEmail,
+          password: registerPassword,
+        }),
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.lecturer) {
+            /* if lecturer is created store info to session storage */
+            sessionStorage.setItem(
+              "lecturerInfo_name",
+              JSON.stringify(data.lecturer.name)
+            );
+            sessionStorage.setItem(
+              "lecturerInfo_email",
+              JSON.stringify(data.lecturer.email)
+            );
+            navigate("/dashboard", { replace: true });
+          } else {
+            console.log(data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log("Password not same as in confirm password");
+    }
   };
 
   return (
@@ -63,10 +73,14 @@ const Register = () => {
           onChange={onPasswordChange}
         />
         <br />
-        <input type="text" placeholder="Confirm password" />
+        <input
+          type="text"
+          placeholder="Confirm password"
+          onChange={onConfirmPasswordChange}
+        />
         <br />
       </form>
-      <button onClick={onSubmitClick}>Register</button>
+      <button onClick={handleSubmitClick}>Register</button>
     </div>
   );
 };

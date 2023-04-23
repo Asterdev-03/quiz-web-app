@@ -6,28 +6,29 @@ import QuizList from "../../components/quizList/QuizList";
 import UploadQuestion from "../../components/uploadQuestion/UploadQuestion";
 
 const Dashboard = () => {
-  const [currentPage, setCurrentPage] = useState("quizList");
+  const [currentComponent, setCurrentComponent] = useState("quizList");
 
   const handlePageChangeToCreateQuiz = () => {
-    setCurrentPage("createQuiz");
+    setCurrentComponent("createQuiz");
   };
 
   const handlePageChangeToQuizList = () => {
-    setCurrentPage("quizList");
+    setCurrentComponent("quizList");
   };
 
   const handlePageChangeToUploadQuestion = () => {
-    setCurrentPage("uploadQuestion");
+    setCurrentComponent("uploadQuestion");
   };
 
+  /* Set page component to be displayed in dashboard page */
   let pageComponent;
-  if (currentPage === "quizList") {
+  if (currentComponent === "quizList") {
     pageComponent = <QuizList onPageChange={handlePageChangeToCreateQuiz} />;
-  } else if (currentPage === "createQuiz") {
+  } else if (currentComponent === "createQuiz") {
     pageComponent = (
       <CreateQuiz onPageChange={handlePageChangeToUploadQuestion} />
     );
-  } else if (currentPage === "uploadQuestion") {
+  } else if (currentComponent === "uploadQuestion") {
     pageComponent = (
       <UploadQuestion onPageChange={handlePageChangeToQuizList} />
     );

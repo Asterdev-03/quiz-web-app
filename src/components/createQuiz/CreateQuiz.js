@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
 const CreateQuiz = (props) => {
-  const [courseName, setCourseName] = useState("");
+  const [quizCourseName, setQuizCourseName] = useState("");
 
-  const onCourseNameChange = (event) => {
-    setCourseName(event.target.value);
+  const onQuizCourseNameChange = (event) => {
+    setQuizCourseName(event.target.value);
   };
 
-  const onSubmitClick = async () => {
+  /* adds qid to lecturer qid list and set the courseName*/
+  const handleSubmitClick = async () => {
     sessionStorage.setItem(
       "lecturerInfo_Qid_Update",
       JSON.stringify(Date.now())
@@ -18,13 +19,13 @@ const CreateQuiz = (props) => {
       body: JSON.stringify({
         email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
         qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
-        courseName: courseName,
+        courseName: quizCourseName,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.user) {
-          console.log(data.user);
+        if (data.quiz) {
+          console.log(data.quiz);
           props.onPageChange();
         } else {
           console.log(data);
@@ -40,10 +41,10 @@ const CreateQuiz = (props) => {
       <input
         type="text"
         placeholder="Enter Course Name"
-        onChange={onCourseNameChange}
+        onChange={onQuizCourseNameChange}
       />
       <br />
-      <button onClick={onSubmitClick}>Submit</button>
+      <button onClick={handleSubmitClick}>Submit</button>
     </div>
   );
 };

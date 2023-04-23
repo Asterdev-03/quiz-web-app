@@ -14,7 +14,8 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const onSubmitClick = () => {
+  /* validates email and password for login */
+  const handleSubmitClick = () => {
     fetch("http://localhost:5000/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -25,16 +26,17 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.user) {
+        if (data.lecturer) {
+          /* if lecturer exist store info to session storage */
           sessionStorage.setItem(
             "lecturerInfo_name",
-            JSON.stringify(data.user.name)
+            JSON.stringify(data.lecturer.name)
           );
           sessionStorage.setItem(
             "lecturerInfo_email",
-            JSON.stringify(data.user.email)
+            JSON.stringify(data.lecturer.email)
           );
-          navigate("/dashboard");
+          navigate("/dashboard", { replace: true });
         } else {
           console.log(data);
         }
@@ -48,12 +50,7 @@ const Login = () => {
     <div>
       <h2>Login</h2>
       <form>
-        <input
-          type="text"
-          placeholder="Enter email"
-          autoComplete="current-password"
-          onChange={onEmailChange}
-        />
+        <input type="text" placeholder="Enter email" onChange={onEmailChange} />
         <br />
         <input
           type="password"
@@ -62,7 +59,9 @@ const Login = () => {
         />
         <br />
       </form>
-      <button onClick={onSubmitClick}>Login</button>
+      <button type="submit" onClick={handleSubmitClick}>
+        Login
+      </button>
     </div>
   );
 };

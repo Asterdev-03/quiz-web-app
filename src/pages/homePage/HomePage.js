@@ -6,25 +6,26 @@ import Register from "../../components/register/Register.js";
 import JoinQuiz from "../../components/joinQuiz/JoinQuiz";
 
 const HomePage = () => {
-  const [currentPage, setCurrentPage] = useState("login");
+  const [currentPageComponent, setCurrentPageComponent] = useState("joinQuiz");
 
   const handleRegisterClick = () => {
-    setCurrentPage("register");
+    setCurrentPageComponent("register");
   };
 
   const handleLoginClick = () => {
-    setCurrentPage("login");
+    setCurrentPageComponent("login");
   };
   const handlejoinQuizClick = () => {
-    setCurrentPage("joinQuiz");
+    setCurrentPageComponent("joinQuiz");
   };
 
+  /* Set page component to be displayed in home page */
   let pageComponent;
-  if (currentPage === "register") {
+  if (currentPageComponent === "register") {
     pageComponent = <Register />;
-  } else if (currentPage === "login") {
+  } else if (currentPageComponent === "login") {
     pageComponent = <Login />;
-  } else if (currentPage === "joinQuiz") {
+  } else if (currentPageComponent === "joinQuiz") {
     pageComponent = <JoinQuiz />;
   }
 

@@ -2,29 +2,32 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const QuizCard = (props) => {
-  const [quizInfo, setQuizInfo] = useState({});
+  const [quiz, setQuiz] = useState({});
+  const [showQuestions, setShowQuestions] = useState(false);
 
   const navigate = useNavigate();
 
-  const onUpdateClick = () => {
-    sessionStorage.setItem(
-      "lecturerInfo_Qid_Update",
-      JSON.stringify(quizInfo.qid)
-    );
+  const handleUpdateClick = () => {
+    sessionStorage.setItem("lecturerInfo_Qid_Update", JSON.stringify(quiz.qid));
   };
 
-  const onStartQuizClick = () => {
-    sessionStorage.setItem(
-      "lecturerInfo_Qid_Update",
-      JSON.stringify(quizInfo.qid)
-    );
+  /* set whether to show or hide the quiz info */
+  const handleViewClick = () => {
+    sessionStorage.setItem("lecturerInfo_Qid_Update", JSON.stringify(quiz.qid));
+    setShowQuestions(!showQuestions);
+  };
+
+  /* generate code for current quiz and stores it in session storage */
+  const handleStartQuizClick = () => {
+    sessionStorage.setItem("lecturerInfo_Qid_Update", JSON.stringify(quiz.qid));
     sessionStorage.setItem(
       "lecturerInfo_QuizCode",
       JSON.stringify(Date.now() % 1000000)
     );
-    navigate("/result");
+    navigate("/resultData", { replace: true });
   };
 
+  /* fetches quiz info for the quiz card */
   useEffect(() => {
     fetch("http://localhost:5000/getQuizInfo", {
       method: "post",
@@ -35,9 +38,9 @@ const QuizCard = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.user) {
-          console.log("Quiz", data.user);
-          setQuizInfo(data.user);
+        if (data.quiz) {
+          console.log("Quiz", data.quiz);
+          setQuiz(data.quiz);
         }
       })
       .catch((error) => {
@@ -47,10 +50,40 @@ const QuizCard = (props) => {
 
   return (
     <div>
-      <h3>{quizInfo.courseName ? quizInfo.courseName : ""}</h3>
-      <button>View</button>
-      <button onClick={onUpdateClick}>Update</button>
-      <button onClick={onStartQuizClick}>StartQuiz</button>
+      <h3>{quiz.courseName ? quiz.courseName : ""}</h3>
+      <button onClick={handleViewClick}>View</button>
+      <button onClick={handleUpdateClick}>Update</button>
+      <button onClick={handleStartQuizClick}>StartQuiz</button>
+
+      {/* Displays the Question and its options when view button is clicked */}
+      {showQuestions && (
+        <div>
+          <h3>Quiz Info</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Options</th>
+                <th>correctOption</th>
+              </tr>
+            </thead>
+            <tbody>
+              {quiz.quizInfo.map((qInfo) => (
+                <tr>
+                  <td>{qInfo.question}</td>
+                  <td>
+                    {qInfo.options.map((option) => (
+                      <tr>{option}</tr>
+                    ))}
+                    <br />
+                  </td>
+                  <td>{qInfo.options[qInfo.correctOption]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

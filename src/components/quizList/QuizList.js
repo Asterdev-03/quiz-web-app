@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import QuizCard from "../quizCard/QuizCard";
 
 const QuizList = (props) => {
@@ -7,7 +8,7 @@ const QuizList = (props) => {
 
   const navigate = useNavigate();
 
-  const onCreateQuizClick = () => {
+  const handleCreateQuizClick = () => {
     props.onPageChange();
   };
 
@@ -15,6 +16,7 @@ const QuizList = (props) => {
     navigate("/", { replace: true });
   };
 
+  /* fetches the qid list whose quiz cards are displayed */
   useEffect(() => {
     fetch("http://localhost:5000/getQuizList", {
       method: "post",
@@ -25,7 +27,7 @@ const QuizList = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setQuizList(data.user);
+        setQuizList(data.qidList);
       })
       .catch((error) => {
         console.log(error);
@@ -35,12 +37,13 @@ const QuizList = (props) => {
   return (
     <div>
       <button onClick={handleLogoutClick}>Logout</button>
+      {/* display quiz card for each qid */}
       <div>
         {quizlist.map((qid) => (
           <QuizCard key={qid} qid={qid} />
         ))}
       </div>
-      <button onClick={onCreateQuizClick}>Create Quiz</button>
+      <button onClick={handleCreateQuizClick}>Create Quiz</button>
     </div>
   );
 };
