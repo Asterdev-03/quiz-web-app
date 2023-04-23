@@ -7,7 +7,7 @@ const QuizList = (props) => {
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const onCreateQuizClick = () => {
     props.onPageChange();
   };
 
@@ -40,7 +40,7 @@ const QuizList = (props) => {
           <QuizCard key={qid} qid={qid} />
         ))}
       </div>
-      <button onClick={handleClick}>Create Quiz</button>
+      <button onClick={onCreateQuizClick}>Create Quiz</button>
     </div>
   );
 };

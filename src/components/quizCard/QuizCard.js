@@ -6,14 +6,21 @@ const QuizCard = (props) => {
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    props.onPageChange();
+  const onUpdateClick = () => {
+    sessionStorage.setItem(
+      "lecturerInfo_Qid_Update",
+      JSON.stringify(quizInfo.qid)
+    );
   };
 
   const onStartQuizClick = () => {
     sessionStorage.setItem(
       "lecturerInfo_Qid_Update",
       JSON.stringify(quizInfo.qid)
+    );
+    sessionStorage.setItem(
+      "lecturerInfo_QuizCode",
+      JSON.stringify(Date.now() % 1000000)
     );
     navigate("/result");
   };
@@ -42,7 +49,7 @@ const QuizCard = (props) => {
     <div>
       <h3>{quizInfo.courseName ? quizInfo.courseName : ""}</h3>
       <button>View</button>
-      <button onClick={handleClick}>Update</button>
+      <button onClick={onUpdateClick}>Update</button>
       <button onClick={onStartQuizClick}>StartQuiz</button>
     </div>
   );

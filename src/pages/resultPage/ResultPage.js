@@ -2,18 +2,15 @@ import { useEffect, useState } from "react";
 import QuizResult from "../../components/quizResult/QuizResult";
 
 const ResultPage = () => {
-  const [code, setCode] = useState(Date.now() % 1000000);
   const [result, setResult] = useState([]);
 
   useEffect(() => {
-    sessionStorage.setItem("lecturerInfo_QuizCode", JSON.stringify(code));
-
     fetch("http://localhost:5000/quizSetup", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
-        code: code,
+        code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
       }),
     })
       .then((response) => response.json())
@@ -27,14 +24,14 @@ const ResultPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [code]);
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:5000/getResult", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
+        code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
       }),
     })
       .then((response) => response.json())
@@ -51,16 +48,12 @@ const ResultPage = () => {
       });
   }, []);
 
-  const onResetCodeClick = async () => {
-    setCode(Date.now() % 1000000);
-  };
-
   return (
     <div>
-      <h3>Code is {code}</h3>
-      <button onClick={onResetCodeClick}>Reset Code</button>
+      <h3>
+        Code is {JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode"))}
+      </h3>
       <h3>Result</h3>
-      <button>Refresh</button>
       <QuizResult students={result} />
     </div>
   );
