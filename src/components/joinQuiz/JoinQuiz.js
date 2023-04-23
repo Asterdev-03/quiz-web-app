@@ -26,6 +26,14 @@ const JoinQuiz = () => {
       .then((data) => {
         if (data.user) {
           console.log(data.user);
+          sessionStorage.setItem("student_name", JSON.stringify(name));
+          sessionStorage.setItem("student_code", JSON.stringify(code));
+          sessionStorage.setItem(
+            "student_selectedOptionsList",
+            JSON.stringify([])
+          );
+          sessionStorage.setItem("student_trace", JSON.stringify(0));
+          navigate("/quiz");
         } else {
           console.log(data);
         }
@@ -33,7 +41,6 @@ const JoinQuiz = () => {
       .catch((error) => {
         console.log(error);
       });
-    navigate("/quiz");
   };
   return (
     <div>

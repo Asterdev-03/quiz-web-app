@@ -79,8 +79,10 @@ const UploadQuestion = (props) => {
           <option value="2">c</option>
           <option value="3">d</option>
         </select>
+        <button type="submit" onClick={onSubmitClick}>
+          Submit
+        </button>
       </form>
-      <button onClick={onSubmitClick}>Submit</button>
     </div>
   );
 };
