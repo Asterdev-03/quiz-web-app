@@ -1,25 +1,42 @@
 const mongoose = require("mongoose");
 
 const resultSchema = mongoose.Schema({
-  qid: {
+  code: {
     type: Number,
     required: true,
   },
+  quiz: [
+    {
+      question: {
+        type: String,
+        trim: true,
+        required: true,
+      },
+      options: [
+        {
+          type: String,
+          trim: true,
+          required: true,
+        },
+      ],
+      correctOption: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
   student: [
     {
       name: {
         type: String,
         trim: true,
-        required: true,
       },
       marks: {
         type: Number,
-        required: true,
       },
       status: {
         type: String,
         trim: true,
-        required: true,
       },
     },
   ],
