@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const teacherSchema = mongoose.Schema({
+const lecturerSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -16,16 +16,11 @@ const teacherSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
-  quizzes: [
-    {
-      qid: {
-        type: String,
-        trim: true,
-      },
-    },
-  ],
+  qidList: {
+    type: [String],
+  },
 });
 
-const TeacherModel = mongoose.model("teacher", teacherSchema);
+const LecturerModel = mongoose.model("lecturer", lecturerSchema);
 
-module.exports = TeacherModel;
+module.exports = LecturerModel;

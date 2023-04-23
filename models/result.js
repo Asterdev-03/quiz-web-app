@@ -5,7 +5,7 @@ const resultSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  quiz: [
+  quizInfo: [
     {
       question: {
         type: String,
@@ -25,7 +25,7 @@ const resultSchema = mongoose.Schema({
       },
     },
   ],
-  student: [
+  students: [
     {
       name: {
         type: String,
@@ -40,7 +40,7 @@ const resultSchema = mongoose.Schema({
       },
     },
   ],
-  course: {
+  courseName: {
     type: String,
     trim: true,
     required: true,
