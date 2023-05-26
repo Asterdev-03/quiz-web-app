@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ResultPage = () => {
+const ResultDataPage = () => {
   const [resultReport, setResultReport] = useState([]);
 
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const ResultPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
 
   return (
     <div>
@@ -88,4 +88,4 @@ const ResultPage = () => {
   );
 };
 
-export default ResultPage;
+export default ResultDataPage;

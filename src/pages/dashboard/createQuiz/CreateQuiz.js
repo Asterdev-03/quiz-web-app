@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateQuiz = (props) => {
   const [quizCourseName, setQuizCourseName] = useState("");
+
+  const navigate = useNavigate();
 
   const onQuizCourseNameChange = (event) => {
     setQuizCourseName(event.target.value);
@@ -26,7 +29,7 @@ const CreateQuiz = (props) => {
       .then((data) => {
         if (data.quiz) {
           console.log(data.quiz);
-          props.onPageChange();
+          navigate("/dashboard/updatequiz", { replace: true });
         } else {
           console.log(data);
         }

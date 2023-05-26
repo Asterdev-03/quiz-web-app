@@ -13,6 +13,9 @@ const Login = () => {
   const onPasswordChange = (event) => {
     setPassword(event.target.value);
   };
+  const handleRegisterClick = (event) => {
+    navigate("/home/register");
+  };
 
   /* validates email and password for login */
   const handleSubmitClick = () => {
@@ -36,7 +39,7 @@ const Login = () => {
             "lecturerInfo_email",
             JSON.stringify(data.lecturer.email)
           );
-          navigate("/dashboard", { replace: true });
+          navigate("/dashboard");
         } else {
           console.log(data);
         }
@@ -59,9 +62,8 @@ const Login = () => {
         />
         <br />
       </form>
-      <button type="submit" onClick={handleSubmitClick}>
-        Login
-      </button>
+      <button onClick={handleSubmitClick}>Login</button>
+      <button onClick={handleRegisterClick}>Create a new account</button>
     </div>
   );
 };

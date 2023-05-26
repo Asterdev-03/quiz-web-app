@@ -12,6 +12,9 @@ const JoinQuiz = () => {
   const onCodeChange = (event) => {
     setQuizCode(event.target.value);
   };
+  const handleLoginClick = (event) => {
+    navigate("/home/login");
+  };
 
   /* validates the code and stores the student name to result report */
   const handleJoinClick = () => {
@@ -52,6 +55,7 @@ const JoinQuiz = () => {
   };
   return (
     <div>
+      <button onClick={handleLoginClick}>login</button>
       <h2>Join a Quiz</h2>
       <form>
         <input type="text" placeholder="Enter name" onChange={onNameChange} />

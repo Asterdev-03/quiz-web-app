@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import QuizCard from "../quizCard/QuizCard";
+import QuizCard from "../../../components/quizCard/QuizCard";
 
-const QuizList = (props) => {
+const QuizList = () => {
   const [quizlist, setQuizList] = useState([]);
 
   const navigate = useNavigate();
 
   const handleCreateQuizClick = () => {
-    props.onPageChange();
+    navigate("/dashboard/createquiz", { replace: true });
   };
 
   const handleLogoutClick = () => {

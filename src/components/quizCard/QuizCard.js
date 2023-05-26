@@ -9,6 +9,7 @@ const QuizCard = (props) => {
 
   const handleUpdateClick = () => {
     sessionStorage.setItem("lecturerInfo_Qid_Update", JSON.stringify(quiz.qid));
+    navigate("/dashboard/updatequiz", { replace: true });
   };
 
   /* set whether to show or hide the quiz info */
@@ -24,7 +25,7 @@ const QuizCard = (props) => {
       "lecturerInfo_QuizCode",
       JSON.stringify(Date.now() % 1000000)
     );
-    navigate("/resultData", { replace: true });
+    navigate("/dashboard/resultreport", { replace: true });
   };
 
   /* fetches quiz info for the quiz card */
@@ -54,7 +55,6 @@ const QuizCard = (props) => {
       <button onClick={handleViewClick}>View</button>
       <button onClick={handleUpdateClick}>Update</button>
       <button onClick={handleStartQuizClick}>StartQuiz</button>
-
       {/* Displays the Question and its options when view button is clicked */}
       {showQuestions && (
         <div>

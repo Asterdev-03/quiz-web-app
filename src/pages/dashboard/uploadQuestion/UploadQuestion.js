@@ -1,20 +1,27 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const UploadQuestion = (props) => {
+const UploadQuestion = () => {
   const [quizQuestion, setQuizQuestion] = useState("");
   const [quizOptions, setQuizOptions] = useState([]);
   const [correctOption, setCorrectOption] = useState(0);
 
+  const navigate = useNavigate();
+
   const handleSaveClick = () => {
-    props.onPageChange();
+    navigate("/dashboard", { replace: true });
   };
 
   const onQuizQuestionChange = (event) => {
     setQuizQuestion(event.target.value);
   };
-  const onQuizOptionChange = (event) => {
-    setQuizOptions((prev) => [...prev, event.target.value]);
+
+  const onQuizOptionChange = (index, event) => {
+    const newQuizOptions = [...quizOptions];
+    newQuizOptions[index] = event.target.value;
+    setQuizOptions(newQuizOptions);
   };
+
   const onCorrectOptionChange = (event) => {
     setCorrectOption(event.target.value);
   };
@@ -35,6 +42,9 @@ const UploadQuestion = (props) => {
       .then((data) => {
         if (data.quiz) {
           console.log(data.quiz);
+          setCorrectOption(0);
+          setQuizOptions([]);
+          setQuizQuestion("");
         } else {
           console.log(data);
         }
@@ -42,9 +52,6 @@ const UploadQuestion = (props) => {
       .catch((error) => {
         console.log(error);
       });
-    setCorrectOption(0);
-    setQuizOptions([]);
-    setQuizQuestion("");
   };
 
   return (
@@ -60,22 +67,30 @@ const UploadQuestion = (props) => {
         <input
           type="text"
           placeholder="Question 1"
-          onChange={onQuizOptionChange}
+          onChange={(event) => {
+            onQuizOptionChange(0, event);
+          }}
         />
         <input
           type="text"
           placeholder="Question 2"
-          onChange={onQuizOptionChange}
+          onChange={(event) => {
+            onQuizOptionChange(1, event);
+          }}
         />
         <input
           type="text"
           placeholder="Question 3"
-          onChange={onQuizOptionChange}
+          onChange={(event) => {
+            onQuizOptionChange(2, event);
+          }}
         />
         <input
           type="text"
           placeholder="Question 4"
-          onChange={onQuizOptionChange}
+          onChange={(event) => {
+            onQuizOptionChange(3, event);
+          }}
         />
         <select onChange={onCorrectOptionChange}>
           <option value="0">a</option>
@@ -83,10 +98,8 @@ const UploadQuestion = (props) => {
           <option value="2">c</option>
           <option value="3">d</option>
         </select>
+        <button onClick={onSubmitClick}>Submit</button>
       </form>
-      <button type="submit" onClick={onSubmitClick}>
-        Submit
-      </button>
     </div>
   );
 };

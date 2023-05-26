@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const StudentResultPage = () => {
+const StudentResult = () => {
   const [result, setResult] = useState();
 
   const navigate = useNavigate();
@@ -58,4 +58,4 @@ const StudentResultPage = () => {
     </div>
   );
 };
-export default StudentResultPage;
+export default StudentResult;
