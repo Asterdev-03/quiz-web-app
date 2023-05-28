@@ -5,6 +5,14 @@ const resultSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  status: {
+    type: Boolean,
+    required: true,
+  },
+  timerValue: {
+    type: Number,
+    required: true,
+  },
   quizInfo: [
     {
       question: {
