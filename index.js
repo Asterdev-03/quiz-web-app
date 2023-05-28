@@ -1,7 +1,7 @@
 /* initialize database models */
-const LecturerModel = require("./models/lecturer");
-const QuizzesModel = require("./models/quizzes");
-const ResultModel = require("./models/result");
+const LecturerModel = require("./models/lecturerModel");
+const QuizzesModel = require("./models/quizzesModel");
+const ResultModel = require("./models/resultModel");
 
 const mongoose = require("mongoose");
 const express = require("express");
@@ -153,6 +153,8 @@ app.post("/quizSetup", async (req, res) => {
           result.code = code;
           result.courseName = data.courseName;
           result.students = [];
+          result.status = false;
+          result.timerValue = 60;
           const quiz = await QuizzesModel.findOne({ qid: qid });
           quiz.quizInfo.sort(() => Math.random() - 0.5);
           result.quizInfo = quiz.quizInfo.slice(0, 5);
@@ -218,6 +220,49 @@ app.post("/getResult", async (req, res) => {
 });
 
 app.post("/joinQuiz", async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    if (await ResultModel.findOne({ code: code })) {
+      res.status(200).json({ status: true });
+    } else {
+      res.status(400).json({ error: "no quiz found" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/getQuizStatus", async (req, res) => {
+  const { code } = req.body;
+  try {
+    const result = await ResultModel.findOne({ code: code });
+    if (result) {
+      res.status(200).json({ status: result.status });
+    } else {
+      res.status(400).json({ error: "no result info" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/setQuizStatus", async (req, res) => {
+  const { code } = req.body;
+  try {
+    await ResultModel.findOneAndUpdate({ code: code }, { status: true })
+      .then((data) => {
+        res.status(200).json({ status: data.status });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/putStudentInfo", async (req, res) => {
   const { name, code } = req.body;
 
   try {
@@ -234,7 +279,7 @@ app.post("/joinQuiz", async (req, res) => {
       }
     )
       .then((data) => {
-        res.status(200).json({ student: { name: name, code: data.code } });
+        res.status(200).json({ timer: data.timerValue });
       })
       .catch((error) => {
         res.status(400).json({ error });
@@ -269,18 +314,25 @@ app.post("/getQuizQuestions", async (req, res) => {
 });
 
 app.post("/setStudentResult", async (req, res) => {
-  const { code, name, selectedOptionsList } = req.body;
+  const { code, name, quizresult } = req.body;
   try {
     const result = await ResultModel.findOne({ code: code });
     if (result) {
       var marks = 0;
       var status = "";
-      for (var i = 0; i < selectedOptionsList.length; i++) {
-        if (selectedOptionsList[i] === result.quizInfo[i].correctOption) {
-          marks = marks + 10;
+      for (const obj1 of result.quizInfo) {
+        for (const obj2 of quizresult) {
+          if (obj1.question === obj2.question) {
+            console.log(obj1.question);
+            if (obj1.correctOption === obj2.selectedOption) {
+              console.log(obj2.options[obj2.selectedOption]);
+              marks = marks + 10;
+            }
+          }
         }
       }
-      if (marks >= selectedOptionsList.length * 10 * 0.4) {
+
+      if (marks >= quizresult.length * 10 * 0.4) {
         status = "pass";
       } else {
         status = "fail";
