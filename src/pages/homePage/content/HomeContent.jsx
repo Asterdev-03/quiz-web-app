@@ -4,10 +4,10 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 // import components
-import Login from "../login/Login.js";
-import Register from "../register/Register.js";
+import Login from "../login/Login";
+import Register from "../register/Register";
 import JoinQuiz from "../joinQuiz/JoinQuiz";
-import Error404 from "../../../components/error404/Error404.js";
+import Error404 from "../../../components/error404/Error404";
 
 const HomeContent = () => {
   return (

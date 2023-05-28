@@ -22,28 +22,16 @@ const JoinQuiz = () => {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: studentName,
         code: quizCode,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         /* if quiz exist store info to session storage */
-        if (data.student) {
-          console.log(data.student);
-          sessionStorage.setItem(
-            "student_name",
-            JSON.stringify(data.student.name)
-          );
-          sessionStorage.setItem(
-            "student_quizCode",
-            JSON.stringify(data.student.code)
-          );
-          sessionStorage.setItem(
-            "student_selectedOptionsList",
-            JSON.stringify([])
-          );
-          sessionStorage.setItem("student_trace", JSON.stringify(0));
+        if (data.status) {
+          sessionStorage.setItem("student_name", JSON.stringify(studentName));
+          sessionStorage.setItem("student_quizCode", JSON.stringify(quizCode));
+          sessionStorage.setItem("student_ready_status", JSON.stringify(false));
           navigate("/quiz", { replace: true });
         } else {
           console.log(data);

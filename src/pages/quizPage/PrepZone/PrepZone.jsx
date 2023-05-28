@@ -2,13 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const PrepZone = () => {
-  const [readyStatus, setReadyStatus] = useState(false);
-  const [showReady, setShowReady] = useState(true);
+  const [quizStarted, setQuizStarted] = useState(true);
+  const [readyStatus, setReadyStatus] = useState(
+    JSON.parse(sessionStorage.getItem("student_ready_status"))
+  );
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (showReady) {
+    const interval = setInterval(() => {
       fetch("http://localhost:5000/getQuizStatus", {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -18,12 +20,23 @@ const PrepZone = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.quiz) {
-            console.log("Quiz", data.quiz);
-            if (data.quiz.status === true && readyStatus === false) {
-              setShowReady(false);
-            } else if (data.quiz.status === true && readyStatus === true) {
-              navigate("/quiz/arena");
+          console.log("Quiz", data.status);
+          if (data.status) {
+            if (data.status === true) {
+              if (
+                JSON.parse(sessionStorage.getItem("student_ready_status")) ===
+                true
+              ) {
+                storeStudentInfo();
+                sessionStorage.setItem(
+                  "student_selectedOptionsList",
+                  JSON.stringify([])
+                );
+                sessionStorage.setItem("student_trace", JSON.stringify(0));
+                navigate("/quiz/arena");
+              } else {
+                setQuizStarted(false);
+              }
             }
           } else {
             console.log(data);
@@ -32,15 +45,44 @@ const PrepZone = () => {
         .catch((error) => {
           console.log(error);
         });
-    }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
   });
 
-  const handleReadyClick = () => {
-    setReadyStatus(!readyStatus);
+  const storeStudentInfo = () => {
+    fetch("http://localhost:5000/putStudentInfo", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: JSON.parse(sessionStorage.getItem("student_name")),
+        code: JSON.parse(sessionStorage.getItem("student_quizCode")),
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.student) {
+          console.log("Student", data.student);
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  const handleReadyClick = () => {
+    const status = JSON.parse(sessionStorage.getItem("student_ready_status"));
+    sessionStorage.setItem("student_ready_status", JSON.stringify(!status));
+    setReadyStatus(JSON.parse(sessionStorage.getItem("student_ready_status")));
+  };
+
   return (
     <div>
-      {showReady ? (
+      {quizStarted ? (
         <div>
           <h2>Rules</h2>
           <ol>
@@ -63,7 +105,7 @@ const PrepZone = () => {
               architecto corrupti eveniet.
             </li>
           </ol>
-          <button onClick={handleReadyClick}>Ready</button>
+          <button onClick={handleReadyClick}>{readyStatus + ""}</button>
         </div>
       ) : (
         <div>
