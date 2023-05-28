@@ -63,8 +63,16 @@ const PrepZone = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.student) {
-          console.log("Student", data.student);
+        if (data.timer) {
+          console.log("Timer", data.timer);
+          sessionStorage.setItem(
+            "student_timerValue",
+            JSON.stringify(data.timer)
+          );
+          sessionStorage.setItem(
+            "student_currentTimerValue",
+            JSON.stringify(data.timer)
+          );
         } else {
           console.log(data);
         }
