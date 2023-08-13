@@ -60,8 +60,8 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div class="register">
+      {/* <h2>Register</h2>
       <form>
         <input type="text" placeholder="Enter name" onChange={onNameChange} />
         <br />
@@ -81,6 +81,53 @@ const Register = () => {
         <br />
       </form>
       <button onClick={handleSubmitClick}>Register</button>
+       */}
+      <div class="wrapper">
+        <div class="form-box login">
+          <div>
+            <h2>Sign-up</h2>
+            <div class="input-box">
+              <span class="icon">
+                <ion-icon name="mail-sharp"></ion-icon>
+              </span>
+              <input type="E-mail" onChange={onEmailChange} required />
+              <label>E-mail</label>
+            </div>
+            <div class="input-box">
+              <span class="icon">
+                <ion-icon name="person-circle-sharp"></ion-icon>
+              </span>
+              <input type="username" onChange={onNameChange} required />
+              <label>Username</label>
+            </div>
+            <div class="input-box">
+              <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon>
+              </span>
+              <input type="password" onChange={onPasswordChange} required />
+              <label>Password</label>
+            </div>
+            <div class="input-box">
+              <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon>
+              </span>
+              <input
+                type="password"
+                onChange={onConfirmPasswordChange}
+                required
+              />
+              <label>Confirm password</label>
+            </div>
+            <button
+              type="submit"
+              onClick={handleSubmitClick}
+              class="login-register-btn"
+            >
+              Sign-up
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

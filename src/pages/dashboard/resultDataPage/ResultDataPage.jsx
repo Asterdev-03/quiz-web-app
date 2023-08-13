@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import QuizTable from "../../../components/quizTable/QuizTable";
+
 const ResultDataPage = () => {
-  const [resultReport, setResultReport] = useState([]);
-  const [readyQuiz, setReadyQuiz] = useState(false);
+  /* const [resultReport, setResultReport] = useState([]); */
+  const [readyQuiz, setReadyQuiz] = useState(
+    JSON.parse(sessionStorage.getItem("lecturerInfo_status"))
+  );
 
   const navigate = useNavigate();
 
@@ -12,7 +16,10 @@ const ResultDataPage = () => {
   };
 
   const handleStartQuizClick = () => {
-    setReadyQuiz(true);
+    const status = JSON.parse(sessionStorage.getItem("lecturerInfo_status"));
+    sessionStorage.setItem("lecturerInfo_status", JSON.stringify(!status));
+    setReadyQuiz(JSON.parse(sessionStorage.getItem("lecturerInfo_status")));
+
     fetch("http://localhost:5000/setQuizStatus", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -57,7 +64,7 @@ const ResultDataPage = () => {
   }, []);
 
   /* fetches the result report of the quiz */
-  useEffect(() => {
+  /*   useEffect(() => {
     fetch("http://localhost:5000/getResult", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -78,39 +85,34 @@ const ResultDataPage = () => {
         console.log(error);
       });
   });
-
+ */
   return (
-    <div>
-      <button onClick={handleExitClick}>Exit</button>
-      <h3>
-        Code is {JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode"))}
-      </h3>
-      {!readyQuiz ? (
-        <button onClick={handleStartQuizClick}>Start Quiz</button>
-      ) : (
-        <div>
-          {/* Displays the Result Report */}
-          <h3>Result</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Marks</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultReport.map((student) => (
-                <tr>
-                  <td>{student.name}</td>
-                  <td>{student.marks}</td>
-                  <td>{student.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+    <div className="w-screen min-h-screen bg-gray-700 p-5">
+      <button
+        class="text-white m-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        onClick={handleExitClick}
+      >
+        Exit
+      </button>
+      <div>
+        <h3 className="text-4xl text-indigo-50 m-3">
+          Code is {JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode"))}
+        </h3>
+        {!readyQuiz ? (
+          <button
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            onClick={handleStartQuizClick}
+          >
+            Start Quiz
+          </button>
+        ) : (
+          <QuizTable
+            quizCode={JSON.parse(
+              sessionStorage.getItem("lecturerInfo_QuizCode")
+            )}
+          />
+        )}
+      </div>
     </div>
   );
 };

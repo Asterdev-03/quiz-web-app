@@ -12,9 +12,6 @@ const JoinQuiz = () => {
   const onCodeChange = (event) => {
     setQuizCode(event.target.value);
   };
-  const handleLoginClick = (event) => {
-    navigate("/home/login");
-  };
 
   /* validates the code and stores the student name to result report */
   const handleJoinClick = () => {
@@ -42,16 +39,32 @@ const JoinQuiz = () => {
       });
   };
   return (
-    <div>
-      <button onClick={handleLoginClick}>login</button>
-      <h2>Join a Quiz</h2>
-      <form>
-        <input type="text" placeholder="Enter name" onChange={onNameChange} />
-        <br />
-        <input type="text" placeholder="Enter Code" onChange={onCodeChange} />
-        <br />
-      </form>
-      <button onClick={handleJoinClick}>Join</button>
+    <div class="joinquiz">
+      <div class="wrapper">
+        <div class="form-box login">
+          <div>
+            <h2>Join Quiz</h2>
+            <div class="input-box">
+              <span class="icon">
+                <ion-icon name="person-circle"></ion-icon>
+              </span>
+              <input type="name" onChange={onNameChange} required />
+              <label>Name</label>
+            </div>
+            <div class="input-box">
+              <span class="icon">
+                <ion-icon name="lock-closed"></ion-icon>
+              </span>
+              <input type="quizcode" onChange={onCodeChange} required />
+              <label>Quiz Code</label>
+            </div>
+
+            <button onClick={handleJoinClick} class="login-register-btn">
+              Join
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
