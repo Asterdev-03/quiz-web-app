@@ -32,6 +32,16 @@ app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
 });
 
+/* 
+import LecturerRouter from "./routes/lecturerModel.routes";
+import QuizzesRouter from "./routes/quizzesModel.routes";
+import ResultRouter from "./routes/resultModel.routes";
+
+app.use("/api/lecturer", LecturerRouter);
+app.use("/api/quizzes", QuizzesRouter);
+app.use("/api/result", ResultRouter);
+ */
+
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -83,7 +93,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/createQuiz", async (req, res) => {
-  const { email, qid, courseName } = req.body;
+  const { email, qid, courseName, timer, poolSize } = req.body;
 
   try {
     await LecturerModel.findOneAndUpdate(
@@ -101,6 +111,8 @@ app.post("/createQuiz", async (req, res) => {
     quiz.qid = qid;
     quiz.courseName = courseName;
     quiz.quizInfo = [];
+    quiz.timer = timer;
+    quiz.poolSize = poolSize;
 
     quiz
       .save()
@@ -154,10 +166,10 @@ app.post("/quizSetup", async (req, res) => {
           result.courseName = data.courseName;
           result.students = [];
           result.status = false;
-          result.timerValue = 60;
+          result.timerValue = data.timer;
           const quiz = await QuizzesModel.findOne({ qid: qid });
           quiz.quizInfo.sort(() => Math.random() - 0.5);
-          result.quizInfo = quiz.quizInfo.slice(0, 5);
+          result.quizInfo = quiz.quizInfo.slice(0, data.poolSize);
 
           result
             .save()
@@ -200,6 +212,25 @@ app.post("/getQuizInfo", async (req, res) => {
     } else {
       res.status(400).json({ error: "no quiz info" });
     }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+});
+
+app.post("/removeQuizInfo", async (req, res) => {
+  const { qid, email } = req.body;
+  try {
+    await QuizzesModel.findOneAndDelete({ qid: qid });
+    await LecturerModel.findOneAndDelete(
+      { email: email },
+      {
+        $pop: {
+          qidList: qid,
+        },
+      }
+    );
+
+    res.status(200).json({ quiz: quiz });
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -323,9 +354,7 @@ app.post("/setStudentResult", async (req, res) => {
       for (const obj1 of result.quizInfo) {
         for (const obj2 of quizresult) {
           if (obj1.question === obj2.question) {
-            console.log(obj1.question);
             if (obj1.correctOption === obj2.selectedOption) {
-              console.log(obj2.options[obj2.selectedOption]);
               marks = marks + 10;
             }
           }

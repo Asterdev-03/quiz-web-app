@@ -14,6 +14,16 @@ const quizzesSchema = mongoose.Schema({
     trim: true,
     required: true,
   },
+  timer: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
+  poolSize: {
+    type: Number,
+    trim: true,
+    required: true,
+  },
   quizInfo: [
     {
       question: {
