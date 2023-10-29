@@ -11,9 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 const PORT = 5000;
-const dbUrl =
-  "mongodb+srv://<dbname>:<password>@cluster0.h0lahrq.mongodb.net/?retryWrites=true&w=majority";
-
+const dbUrl = process.env.MONGODBURL;
 const connectionParams = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
