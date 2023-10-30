@@ -92,7 +92,7 @@ app.post("/login", async (req, res) => {
         res.status(400).json({ error: "password incorrect" });
       }
     } else {
-      res.status(400).json({ error: LecturerModel });
+      res.status(400).json({ error: "email incorrect" });
     }
   } catch (error) {
     res.status(400).json({ error });
