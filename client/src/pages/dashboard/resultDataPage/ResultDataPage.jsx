@@ -20,9 +20,9 @@ const ResultDataPage = () => {
     sessionStorage.setItem("lecturerInfo_status", JSON.stringify(!status));
     setReadyQuiz(JSON.parse(sessionStorage.getItem("lecturerInfo_status")));
 
-    fetch("https://juiz-server.onrender.com/setQuizStatus", {
+    fetch("http://localhost:5000/setQuizStatus", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
       }),
@@ -42,9 +42,9 @@ const ResultDataPage = () => {
 
   /* setup the quiz with keys qid and code */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/quizSetup", {
+    fetch("http://localhost:5000/quizSetup", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
@@ -65,9 +65,9 @@ const ResultDataPage = () => {
 
   /* fetches the result report of the quiz */
   /*   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getResult", {
+    fetch("http://localhost:5000/getResult", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
       }),

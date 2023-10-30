@@ -11,7 +11,7 @@ const PrepZone = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("https://juiz-server.onrender.com/getQuizStatus", {
+      fetch("http://localhost:5000/getQuizStatus", {
         method: "post",
         
         body: JSON.stringify({
@@ -52,9 +52,9 @@ const PrepZone = () => {
   };
 
   const storeStudentInfo = () => {
-    fetch("https://juiz-server.onrender.com/putStudentInfo", {
+    fetch("http://localhost:5000/putStudentInfo", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: JSON.parse(sessionStorage.getItem("student_name")),
         code: JSON.parse(sessionStorage.getItem("student_quizCode")),

@@ -14,9 +14,9 @@ const StudentResult = () => {
 
   /* fetches the student result using name and quiz code */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getStudentResult", {
+    fetch("http://localhost:5000/getStudentResult", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         name: JSON.parse(sessionStorage.getItem("student_name")),

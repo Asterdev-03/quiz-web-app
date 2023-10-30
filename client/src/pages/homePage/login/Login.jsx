@@ -19,10 +19,9 @@ const Login = () => {
 
   /* validates email and password for login */
   const handleSubmitClick = () => {
-    console.log("hi");
-    fetch("https://juiz-server.onrender.com/login", {
+    fetch("http://localhost:5000/login", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: loginEmail,
         password: loginPassword,

@@ -18,9 +18,9 @@ const QuizList = () => {
 
   /* fetches the qid list whose quiz cards are displayed */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getQuizList", {
+    fetch("http://localhost:5000/getQuizList", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
       }),

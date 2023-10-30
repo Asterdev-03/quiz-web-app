@@ -5,9 +5,9 @@ const QuizTable = (props) => {
 
   /* fetches the result report of the quiz */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getResult", {
+    fetch("http://localhost:5000/getResult", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         code: props.quizCode,
       }),

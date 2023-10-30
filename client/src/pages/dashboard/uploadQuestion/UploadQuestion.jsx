@@ -41,9 +41,9 @@ const UploadQuestion = () => {
 
   /* uploads the question and options to quiz with qid key */
   const onSubmitClick = () => {
-    fetch("https://juiz-server.onrender.com/uploadQuestion", {
+    fetch("http://localhost:5000/uploadQuestion", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         question: quizQuestion,

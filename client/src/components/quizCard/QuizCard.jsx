@@ -19,9 +19,9 @@ const QuizCard = (props) => {
   };
 
   const handleDeleteClick = async () => {
-    await fetch("https://juiz-server.onrender.com/removeQuizInfo", {
+    await fetch("http://localhost:5000/removeQuizInfo", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         qid: props.qid,
         email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
@@ -54,9 +54,9 @@ const QuizCard = (props) => {
 
   /* fetches quiz info for the quiz card */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getQuizInfo", {
+    fetch("http://localhost:5000/getQuizInfo", {
       method: "post",
-      
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         qid: props.qid,
       }),
