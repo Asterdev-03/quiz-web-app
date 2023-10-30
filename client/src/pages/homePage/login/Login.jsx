@@ -20,7 +20,7 @@ const Login = () => {
   /* validates email and password for login */
   const handleSubmitClick = () => {
     console.log("hi");
-    fetch("http://localhost:5000/login", {
+    fetch("https://quiz-web-app-api.vercel.app//login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

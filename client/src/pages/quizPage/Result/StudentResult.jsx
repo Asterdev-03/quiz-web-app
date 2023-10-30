@@ -14,7 +14,7 @@ const StudentResult = () => {
 
   /* fetches the student result using name and quiz code */
   useEffect(() => {
-    fetch("http://localhost:5000/getStudentResult", {
+    fetch("https://quiz-web-app-api.vercel.app//getStudentResult", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

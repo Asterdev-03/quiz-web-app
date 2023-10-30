@@ -11,7 +11,7 @@ const PrepZone = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("http://localhost:5000/getQuizStatus", {
+      fetch("https://quiz-web-app-api.vercel.app//getQuizStatus", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -52,7 +52,7 @@ const PrepZone = () => {
   };
 
   const storeStudentInfo = () => {
-    fetch("http://localhost:5000/putStudentInfo", {
+    fetch("https://quiz-web-app-api.vercel.app//putStudentInfo", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -41,7 +41,7 @@ const UploadQuestion = () => {
 
   /* uploads the question and options to quiz with qid key */
   const onSubmitClick = () => {
-    fetch("http://localhost:5000/uploadQuestion", {
+    fetch("https://quiz-web-app-api.vercel.app//uploadQuestion", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

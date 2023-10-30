@@ -15,7 +15,7 @@ const JoinQuiz = () => {
 
   /* validates the code and stores the student name to result report */
   const handleJoinClick = () => {
-    fetch("http://localhost:5000/joinQuiz", {
+    fetch("https://quiz-web-app-api.vercel.app//joinQuiz", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
