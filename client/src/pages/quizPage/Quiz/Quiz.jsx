@@ -25,7 +25,7 @@ const Quiz = () => {
   useEffect(() => {
     if (quizInfo && quizInfo === "none") {
       console.log("fetch");
-      fetch("https://quiz-web-app-api.vercel.app//getQuizQuestions", {
+      fetch("https://quiz-web-app-api.vercel.app/getQuizQuestions", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -83,7 +83,7 @@ const Quiz = () => {
       quizresult[i].selectedOption = optionsList[i];
     }
     console.log("Provided Answers", quizresult);
-    await fetch("https://quiz-web-app-api.vercel.app//setStudentResult", {
+    await fetch("https://quiz-web-app-api.vercel.app/setStudentResult", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

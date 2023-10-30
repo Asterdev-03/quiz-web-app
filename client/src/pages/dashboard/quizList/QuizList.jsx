@@ -18,7 +18,7 @@ const QuizList = () => {
 
   /* fetches the qid list whose quiz cards are displayed */
   useEffect(() => {
-    fetch("https://quiz-web-app-api.vercel.app//getQuizList", {
+    fetch("https://quiz-web-app-api.vercel.app/getQuizList", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
