@@ -6,7 +6,9 @@ const ResultModel = require("./models/resultModel");
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
+const dotenv = require("dotenv")
 
+dotenv.config()
 const app = express();
 app.use(cors({
   origin: ["https://quiz-web-app-cyan.vercel.app"],
