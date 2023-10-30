@@ -25,7 +25,7 @@ const Register = () => {
   /* register with email and password */
   const handleSubmitClick = () => {
     if (registerConfirmPassword === registerPassword) {
-      fetch("http://localhost:5000/register", {
+      fetch("https://juiz-server.onrender.com/register", {
         method: "post",
         
         body: JSON.stringify({

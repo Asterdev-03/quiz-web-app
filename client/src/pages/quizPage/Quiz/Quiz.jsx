@@ -25,7 +25,7 @@ const Quiz = () => {
   useEffect(() => {
     if (quizInfo && quizInfo === "none") {
       console.log("fetch");
-      fetch("http://localhost:5000/getQuizQuestions", {
+      fetch("https://juiz-server.onrender.com/getQuizQuestions", {
         method: "post",
         
         body: JSON.stringify({
@@ -83,7 +83,7 @@ const Quiz = () => {
       quizresult[i].selectedOption = optionsList[i];
     }
     console.log("Provided Answers", quizresult);
-    await fetch("http://localhost:5000/setStudentResult", {
+    await fetch("https://juiz-server.onrender.com/setStudentResult", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

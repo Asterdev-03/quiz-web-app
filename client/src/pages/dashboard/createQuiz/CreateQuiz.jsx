@@ -24,7 +24,7 @@ const CreateQuiz = () => {
       "lecturerInfo_Qid_Update",
       JSON.stringify(Date.now())
     );
-    await fetch("http://localhost:5000/createQuiz", {
+    await fetch("https://juiz-server.onrender.com/createQuiz", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
