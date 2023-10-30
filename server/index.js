@@ -8,12 +8,13 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(express.json());
 app.use(cors({
-  origin: ["https://quiz-web-app-api.vercel.app/"],
+  origin: ["https://quiz-web-app-api.vercel.app"],
   methods: ["POST","GET"],
   credentials:true
 }));
+app.use(express.json());
+
 const PORT = process.env.PORT | 5000;
 const dbUrl = process.env.MONGODBURL;
 const connectionParams = {
