@@ -81,7 +81,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const lecturer = await LecturerModel.findOne({ email: email });
     if (lecturer) {
@@ -93,7 +92,7 @@ app.post("/login", async (req, res) => {
         res.status(400).json({ error: "password incorrect" });
       }
     } else {
-      res.status(400).json({ error: "email incorrect" });
+      res.status(400).json({ error: LecturerModel });
     }
   } catch (error) {
     res.status(400).json({ error });
