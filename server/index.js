@@ -1,5 +1,5 @@
 /* initialize database models */
-const LecturerModel = require("./models/lecturerModel");
+const LecturerModel = require("./models/lecturerModel")
 const QuizzesModel = require("./models/quizzesModel");
 const ResultModel = require("./models/resultModel");
 
@@ -10,15 +10,18 @@ const dotenv = require("dotenv")
 
 dotenv.config()
 const app = express();
-app.use(cors({
-  origin: ["https://quiz-web-app-cyan.vercel.app"],
-  methods: ["POST","GET"],
-  credentials:true
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 const dbUrl = process.env.MONGODBURL;
+
 const connectionParams = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -81,8 +84,11 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log(email,password)
   try {
+    console.log("hiii")
     const lecturer = await LecturerModel.findOne({ email: email });
+    console.log("hiii")
     if (lecturer) {
       if (password === lecturer.password) {
         res
