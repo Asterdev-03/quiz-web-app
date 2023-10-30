@@ -20,7 +20,7 @@ const QuizList = () => {
   useEffect(() => {
     fetch("https://quiz-web-app-api.vercel.app/getQuizList", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
       }),

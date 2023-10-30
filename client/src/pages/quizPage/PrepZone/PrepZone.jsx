@@ -13,7 +13,7 @@ const PrepZone = () => {
     const interval = setInterval(() => {
       fetch("https://quiz-web-app-api.vercel.app/getQuizStatus", {
         method: "post",
-        headers: { "Content-Type": "application/json" },
+        
         body: JSON.stringify({
           code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         }),
@@ -54,7 +54,7 @@ const PrepZone = () => {
   const storeStudentInfo = () => {
     fetch("https://quiz-web-app-api.vercel.app/putStudentInfo", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         name: JSON.parse(sessionStorage.getItem("student_name")),
         code: JSON.parse(sessionStorage.getItem("student_quizCode")),

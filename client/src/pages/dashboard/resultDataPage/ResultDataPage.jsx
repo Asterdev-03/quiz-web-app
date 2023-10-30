@@ -22,7 +22,7 @@ const ResultDataPage = () => {
 
     fetch("https://quiz-web-app-api.vercel.app/setQuizStatus", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
       }),
@@ -44,7 +44,7 @@ const ResultDataPage = () => {
   useEffect(() => {
     fetch("https://quiz-web-app-api.vercel.app/quizSetup", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
@@ -67,7 +67,7 @@ const ResultDataPage = () => {
   /*   useEffect(() => {
     fetch("https://quiz-web-app-api.vercel.app/getResult", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("lecturerInfo_QuizCode")),
       }),

@@ -43,7 +43,7 @@ const UploadQuestion = () => {
   const onSubmitClick = () => {
     fetch("https://quiz-web-app-api.vercel.app/uploadQuestion", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         qid: JSON.parse(sessionStorage.getItem("lecturerInfo_Qid_Update")),
         question: quizQuestion,

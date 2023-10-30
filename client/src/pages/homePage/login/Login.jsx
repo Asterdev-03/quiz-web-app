@@ -22,7 +22,7 @@ const Login = () => {
     console.log("hi");
     fetch("https://quiz-web-app-api.vercel.app/login", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         email: loginEmail,
         password: loginPassword,

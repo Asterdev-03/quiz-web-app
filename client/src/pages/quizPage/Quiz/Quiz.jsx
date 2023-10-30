@@ -27,7 +27,7 @@ const Quiz = () => {
       console.log("fetch");
       fetch("https://quiz-web-app-api.vercel.app/getQuizQuestions", {
         method: "post",
-        headers: { "Content-Type": "application/json" },
+        
         body: JSON.stringify({
           code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         }),
@@ -85,7 +85,7 @@ const Quiz = () => {
     console.log("Provided Answers", quizresult);
     await fetch("https://quiz-web-app-api.vercel.app/setStudentResult", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         name: JSON.parse(sessionStorage.getItem("student_name")),

@@ -16,7 +16,7 @@ const StudentResult = () => {
   useEffect(() => {
     fetch("https://quiz-web-app-api.vercel.app/getStudentResult", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         name: JSON.parse(sessionStorage.getItem("student_name")),

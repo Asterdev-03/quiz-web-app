@@ -21,7 +21,7 @@ const QuizCard = (props) => {
   const handleDeleteClick = async () => {
     await fetch("https://quiz-web-app-api.vercel.app/removeQuizInfo", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         qid: props.qid,
         email: JSON.parse(sessionStorage.getItem("lecturerInfo_email")),
@@ -56,7 +56,7 @@ const QuizCard = (props) => {
   useEffect(() => {
     fetch("https://quiz-web-app-api.vercel.app/getQuizInfo", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         qid: props.qid,
       }),

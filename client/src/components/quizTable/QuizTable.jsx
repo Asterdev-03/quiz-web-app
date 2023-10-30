@@ -7,7 +7,7 @@ const QuizTable = (props) => {
   useEffect(() => {
     fetch("https://quiz-web-app-api.vercel.app/getResult", {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      
       body: JSON.stringify({
         code: props.quizCode,
       }),

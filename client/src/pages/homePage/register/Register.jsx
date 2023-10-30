@@ -27,7 +27,7 @@ const Register = () => {
     if (registerConfirmPassword === registerPassword) {
       fetch("https://quiz-web-app-api.vercel.app/register", {
         method: "post",
-        headers: { "Content-Type": "application/json" },
+        
         body: JSON.stringify({
           name: registerName,
           email: registerEmail,
