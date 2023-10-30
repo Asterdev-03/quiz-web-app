@@ -14,7 +14,7 @@ app.use(cors({
   methods: ["POST","GET"],
   credentials:true
 }));
-// const PORT = 5000;
+const PORT = process.env.PORT | 5000;
 const dbUrl = process.env.MONGODBURL;
 const connectionParams = {
   useNewUrlParser: true,
@@ -29,11 +29,11 @@ mongoose
   .catch((err) => {
     console.log("Error: ", err);
   });
-/* 
+
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
 });
- */
+
 app.get("/", (req,res)=>{
   res.json("Listening")
 })
