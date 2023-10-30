@@ -14,7 +14,7 @@ const StudentResult = () => {
 
   /* fetches the student result using name and quiz code */
   useEffect(() => {
-    fetch("https://quiz-web-app-api.vercel.app/getStudentResult", {
+    fetch("https://juiz-server.onrender.com/getStudentResult", {
       method: "post",
       
       body: JSON.stringify({

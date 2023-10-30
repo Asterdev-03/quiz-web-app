@@ -20,7 +20,7 @@ const Login = () => {
   /* validates email and password for login */
   const handleSubmitClick = () => {
     console.log("hi");
-    fetch("https://quiz-web-app-api.vercel.app/login", {
+    fetch("https://juiz-server.onrender.com/login", {
       method: "post",
       
       body: JSON.stringify({

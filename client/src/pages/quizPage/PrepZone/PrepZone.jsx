@@ -11,7 +11,7 @@ const PrepZone = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("https://quiz-web-app-api.vercel.app/getQuizStatus", {
+      fetch("https://juiz-server.onrender.com/getQuizStatus", {
         method: "post",
         
         body: JSON.stringify({
@@ -52,7 +52,7 @@ const PrepZone = () => {
   };
 
   const storeStudentInfo = () => {
-    fetch("https://quiz-web-app-api.vercel.app/putStudentInfo", {
+    fetch("https://juiz-server.onrender.com/putStudentInfo", {
       method: "post",
       
       body: JSON.stringify({

@@ -25,7 +25,7 @@ const Register = () => {
   /* register with email and password */
   const handleSubmitClick = () => {
     if (registerConfirmPassword === registerPassword) {
-      fetch("https://quiz-web-app-api.vercel.app/register", {
+      fetch("https://juiz-server.onrender.com/register", {
         method: "post",
         
         body: JSON.stringify({

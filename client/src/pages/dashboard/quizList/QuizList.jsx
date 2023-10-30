@@ -18,7 +18,7 @@ const QuizList = () => {
 
   /* fetches the qid list whose quiz cards are displayed */
   useEffect(() => {
-    fetch("https://quiz-web-app-api.vercel.app/getQuizList", {
+    fetch("https://juiz-server.onrender.com/getQuizList", {
       method: "post",
       
       body: JSON.stringify({

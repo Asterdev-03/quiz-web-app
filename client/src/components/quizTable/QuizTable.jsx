@@ -5,7 +5,7 @@ const QuizTable = (props) => {
 
   /* fetches the result report of the quiz */
   useEffect(() => {
-    fetch("https://quiz-web-app-api.vercel.app/getResult", {
+    fetch("https://juiz-server.onrender.com/getResult", {
       method: "post",
       
       body: JSON.stringify({

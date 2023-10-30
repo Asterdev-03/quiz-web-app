@@ -24,7 +24,7 @@ const CreateQuiz = () => {
       "lecturerInfo_Qid_Update",
       JSON.stringify(Date.now())
     );
-    await fetch("https://quiz-web-app-api.vercel.app/createQuiz", {
+    await fetch("https://juiz-server.onrender.com/createQuiz", {
       method: "post",
       
       body: JSON.stringify({
