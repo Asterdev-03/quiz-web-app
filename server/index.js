@@ -9,7 +9,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors({
-  origin: ["https://quiz-web-app-api.vercel.app"],
+  origin: ["https://quiz-web-app-cyan.vercel.app"],
   methods: ["POST","GET"],
   credentials:true
 }));
