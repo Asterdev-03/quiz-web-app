@@ -9,8 +9,12 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
-const PORT = 5000;
+app.use(cors({
+  origin: ["https://quiz-web-app-api.vercel.app/"],
+  methods: ["POST","GET"],
+  credentials:true
+}));
+// const PORT = 5000;
 const dbUrl = process.env.MONGODBURL;
 const connectionParams = {
   useNewUrlParser: true,
@@ -25,11 +29,14 @@ mongoose
   .catch((err) => {
     console.log("Error: ", err);
   });
-
+/* 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
 });
-
+ */
+app.get("/", (req,res)=>{
+  res.json("Listening")
+})
 /* 
 import LecturerRouter from "./routes/lecturerModel.routes";
 import QuizzesRouter from "./routes/quizzesModel.routes";
