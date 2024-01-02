@@ -1,25 +1,25 @@
 /* initialize database models */
-const LecturerModel = require("./models/lecturerModel")
+const LecturerModel = require("./models/lecturerModel");
 const QuizzesModel = require("./models/quizzesModel");
 const ResultModel = require("./models/resultModel");
 
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv")
+const dotenv = require("dotenv");
 
-dotenv.config()
+dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["https://quiz-web-app-cyan.vercel.app"],
+    origin: [process.env.CLIENT_PORT],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.SERVER_PORT;
 const dbUrl = process.env.MONGODBURL;
 
 const connectionParams = {
@@ -40,9 +40,9 @@ app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
 });
 
-app.get("/", (req,res)=>{
-  res.json("Listening")
-})
+app.get("/", (req, res) => {
+  res.json("Listening");
+});
 /* 
 import LecturerRouter from "./routes/lecturerModel.routes";
 import QuizzesRouter from "./routes/quizzesModel.routes";
@@ -84,11 +84,9 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log(email,password)
   try {
-    console.log("hiii")
     const lecturer = await LecturerModel.findOne({ email: email });
-    console.log("hiii")
+
     if (lecturer) {
       if (password === lecturer.password) {
         res

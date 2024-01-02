@@ -131,9 +131,9 @@ const setStudentResult = async (req, res) => {
       for (const obj1 of result.quizInfo) {
         for (const obj2 of quizresult) {
           if (obj1.question === obj2.question) {
-            console.log(obj1.question);
+            // console.log(obj1.question);
             if (obj1.correctOption === obj2.selectedOption) {
-              console.log(obj2.options[obj2.selectedOption]);
+              // console.log(obj2.options[obj2.selectedOption]);
               marks = marks + 10;
             }
           }
