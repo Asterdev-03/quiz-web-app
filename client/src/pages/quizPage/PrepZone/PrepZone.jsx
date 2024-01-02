@@ -29,6 +29,7 @@ const PrepZone = () => {
               ) {
                 storeStudentInfo();
                 navigate("/quiz/arena");
+                window.location.reload();
               } else {
                 setQuizStarted(false);
               }
