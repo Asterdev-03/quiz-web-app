@@ -15,7 +15,7 @@ const JoinQuiz = () => {
 
   /* validates the code and stores the student name to result report */
   const handleJoinClick = () => {
-    fetch("https://juiz-server.onrender.com/joinQuiz", {
+    fetch(`${process.env.REACT_APP_API_KEY}/joinQuiz`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

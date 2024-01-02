@@ -11,9 +11,9 @@ const PrepZone = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("https://juiz-server.onrender.com/getQuizStatus", {
+      fetch(`${process.env.REACT_APP_API_KEY}/getQuizStatus`, {
         method: "post",
-        
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         }),
@@ -52,7 +52,7 @@ const PrepZone = () => {
   };
 
   const storeStudentInfo = () => {
-    fetch("https://juiz-server.onrender.com/putStudentInfo", {
+    fetch(`${process.env.REACT_APP_API_KEY}/putStudentInfo`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

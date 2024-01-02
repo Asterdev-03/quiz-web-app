@@ -41,7 +41,7 @@ const UploadQuestion = () => {
 
   /* uploads the question and options to quiz with qid key */
   const onSubmitClick = () => {
-    fetch("https://juiz-server.onrender.com/uploadQuestion", {
+    fetch(`${process.env.REACT_APP_API_KEY}/uploadQuestion`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

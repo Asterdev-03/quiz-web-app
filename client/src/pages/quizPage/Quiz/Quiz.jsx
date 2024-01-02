@@ -25,9 +25,9 @@ const Quiz = () => {
   useEffect(() => {
     if (quizInfo && quizInfo === "none") {
       console.log("fetch");
-      fetch("https://juiz-server.onrender.com/getQuizQuestions", {
+      fetch(`${process.env.REACT_APP_API_KEY}/getQuizQuestions`, {
         method: "post",
-        
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: JSON.parse(sessionStorage.getItem("student_quizCode")),
         }),
@@ -83,7 +83,7 @@ const Quiz = () => {
       quizresult[i].selectedOption = optionsList[i];
     }
     console.log("Provided Answers", quizresult);
-    await fetch("https://juiz-server.onrender.com/setStudentResult", {
+    await fetch(`${process.env.REACT_APP_API_KEY}/setStudentResult`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -162,12 +162,13 @@ const Quiz = () => {
   return (
     <div className="w-screen min-h-screen bg-gray-700 grid grid-cols-1 justify-items-center items-center">
       {quizInfo && quizInfo !== "none" && quizInfo[trace] && (
-        <div class="relative  w-fit h-96 m-1 p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-400 dark:border-gray-700">
+        <div class="relative w-96 h-96 m-1 p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-400 dark:border-gray-700">
           <div className="absolute top-5 right-0 grid grid-cols-2">
             <h3>Timer: {timerValue}</h3>
           </div>
           <div className="my-8">
             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-black">
+              Question:{" "}
               {quizInfo[trace].question ? quizInfo[trace].question : ""}
             </h3>
           </div>

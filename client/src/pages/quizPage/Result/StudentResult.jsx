@@ -14,7 +14,7 @@ const StudentResult = () => {
 
   /* fetches the student result using name and quiz code */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getStudentResult", {
+    fetch(`${process.env.REACT_APP_API_KEY}/getStudentResult`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

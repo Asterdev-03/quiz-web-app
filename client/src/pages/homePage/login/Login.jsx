@@ -19,7 +19,7 @@ const Login = () => {
 
   /* validates email and password for login */
   const handleSubmitClick = () => {
-    fetch("https://juiz-server.onrender.com/login", {
+    fetch(`${process.env.REACT_APP_API_KEY}/login`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

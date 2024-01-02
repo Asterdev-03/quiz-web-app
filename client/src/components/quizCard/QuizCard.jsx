@@ -19,7 +19,7 @@ const QuizCard = (props) => {
   };
 
   const handleDeleteClick = async () => {
-    await fetch("https://juiz-server.onrender.com/removeQuizInfo", {
+    await fetch(`${process.env.REACT_APP_API_KEY}/removeQuizInfo`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -54,7 +54,7 @@ const QuizCard = (props) => {
 
   /* fetches quiz info for the quiz card */
   useEffect(() => {
-    fetch("https://juiz-server.onrender.com/getQuizInfo", {
+    fetch(`${process.env.REACT_APP_API_KEY}/getQuizInfo`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
